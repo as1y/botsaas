@@ -57,7 +57,7 @@ class MasterController extends AppController {
         //Информация о компаниях клиента
 
         $META = [
-            'title' => 'Добавление проекта',
+            'title' => 'Добавление проекта1',
             'description' => 'Добавление проекта',
             'keywords' => 'Добавление проекта',
         ];
