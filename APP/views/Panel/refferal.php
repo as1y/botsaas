@@ -6,7 +6,7 @@
     </div>
 
     <div class="card-body">
-
+        <span class="bg-success">За оператора который совершит более 500 звонков вы получаете бонус <b>+ 500</b> рублей </span><br>
         <div class="row">
             <div class="col-md-6">
                 <label>Ваша ссылка:</label>
@@ -20,7 +20,7 @@
             <tr>
                 <th>Имя Фамилия</th>
                 <th>Дата регистрации</th>
-                <th>Заработал</th>
+                <th>Совершил звонков</th>
                 <th>Ваше вознаграждение</th>
                 <th>Действие</th>
 
@@ -36,8 +36,8 @@
                 <tr>
                     <td><?=$val['username']?></td>
                     <td class="text-center"><?=$val['datareg']?></td>
-                    <td class="text-center"><b>0 руб.</b></td>
-                    <td class="text-center"><b>0 руб.</b></td>
+                    <td class="text-center"><b><?=$val['totalcall']?></b></td>
+                    <td class="text-center"><b><?=$val['bonusrefu']?></b></td>
                     <td class="text-center">
                         <a href="/panel/messages/?id=<?=$val['id']?>" type="button" class="btn btn-success"><i class="icon-comment-discussion mr-2"></i>Сообщение</a>
                     </td>

@@ -7,6 +7,7 @@
     <div class="card-body">
 
         <div class="row">
+
             <div class="col-md-6">
                 <form action="/panel/cashout/?action=viplata" method="post">
                 К выводу доступно <b><?=\APP\core\base\Model::getBal()?></b> рублей <br>
@@ -29,7 +30,10 @@
 
                             if ($key == "qiwi") $name = "QIWI";
                             if ($key == "yamoney") $name = "Яндекс.Деньги";
-                            if ($key == "card") $name = "Карта банка";
+                            if ($key == "cardvisa") $name = "Карта банка VISA";
+                            if ($key == "cardmaster") $name = "Карта банка MASTERCARD";
+                            if ($key == "cardmir") $name = "Карта банка MIR";
+                            if ($key == "cardukr") $name = "Карта Украинского банка";
                             ?>
 
                             <option  value="<?=$key?>" ><?=$name."-".$val?></option>
@@ -62,22 +66,39 @@
 
             <div class="col-md-6">
                 <h2>МОИ РЕКВИЗИТЫ</h2>
-
+                <span class="bg-warning">Внимание! Изменение реквезитов возможно только запрос в тех. поддержку</span>
                 <form action="/panel/cashout/?action=changerequis" method="post">
                 <div class="form-group">
-                    <label>QIWI</label>
+                    <label>QIWI РФ (Комиссия 1.99%)</label>
                     <input type="text" name="qiwi" value="<?=(empty($requis['qiwi'])) ? "" : $requis['qiwi'] ?>" placeholder="Введите ваш QIWI" class="form-control">
                 </div>
 
                 <div class="form-group">
-                    <label>Яндекс.Деньги</label>
+                    <label>Яндекс.Деньги РФ (Комиссия 1.99%)</label>
                     <input type="text"  name="yamoney" value="<?=(empty($requis['yamoney'])) ? "" : $requis['yamoney'] ?>" placeholder="Введите ваш Яндекс.Деньги" class="form-control">
                 </div>
 
                 <div class="form-group">
-                    <label>Номер карты</label>
-                    <input type="text"  name="card" value="<?=(empty($requis['card'])) ? "" : $requis['card'] ?>"  placeholder="Введите ваш Номер карты" class="form-control">
+                    <label>Карта VISA РФ (RUB 1.99% + 45.00р.)</label>
+                    <input type="text"  name="cardvisa" value="<?=(empty($requis['card'])) ? "" : $requis['card'] ?>"  placeholder="Введите ваш Номер карты" class="form-control">
                 </div>
+
+                    <div class="form-group">
+                        <label>Карта MASTERCARD РФ (RUB 1.99% + 45.00р.)</label>
+                        <input type="text"  name="cardmaster" value="<?=(empty($requis['card'])) ? "" : $requis['card'] ?>"  placeholder="Введите ваш Номер карты" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Карта MIR РФ (RUB 1.99% + 45.00р. )</label>
+                        <input type="text"  name="cardmir" value="<?=(empty($requis['card'])) ? "" : $requis['card'] ?>"  placeholder="Введите ваш Номер карты" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Карта Украинского Банка (RUB 3% + 45.00р. )</label>
+                        <input type="text"  name="cardukr" value="<?=(empty($requis['card'])) ? "" : $requis['card'] ?>"  placeholder="Введите ваш Номер карты" class="form-control">
+                    </div>
+
+
 
                 <button  type="submit" class="btn btn-warning"><i class="icon-checkmark mr-2"></i>СОХРАНИТЬ РЕКВИЗИТЫ</button>
 

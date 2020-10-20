@@ -29,15 +29,14 @@ class UserController extends AppController
 
 
         $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/styling/uniform.min.js"];
-
-        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/styling/switchery.min.js"];
-        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/styling/switch.min.js"];
-
+        $ASSETS[] = ["js" => "/global_assets/js/demo_pages/form_checkboxes_radios.js"];
         $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/validation/validate.min.js"];
-        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/styling/uniform.min.js"];
+
         $ASSETS[] = ["js" => "/assets/js/login_validation.js"];
 
-        $ASSETS[] = ["js" => "/global_assets/js/demo_pages/form_checkboxes_radios.js"];
+
+
+
 
 
          \APP\core\base\View::setAssets($ASSETS);
@@ -46,9 +45,12 @@ class UserController extends AppController
 
         $user = new User; //Вызываем Моудль
 
+
         if ($_POST){
 
               $validate =  $user->validateregistration($_POST);
+
+            $_SESSION['form_data'] = $_POST; //Сохраняем в сессию, чтобы у поьзователю было удобнее
 
             if(!$validate || !$user->checkUniq(CONFIG['USERTABLE'], $_POST['email'] ))
             {
@@ -128,11 +130,11 @@ class UserController extends AppController
 
 			$user = new User;
 
-			if($user->login(CONFIG['USERTABLE'])){
+			if($user->logintest(CONFIG['USERTABLE'])){
 				//АВТОРИЗАЦИЯ
 
                 if ($_SESSION['ulogin']['role'] == "R") redir('/master/');
-                if ($_SESSION['ulogin']['role'] == "O") redir('/operator/');
+                if ($_SESSION['ulogin']['role'] == "O") redir('/operator/stat');
 
 
 				//АВТОРИЗАЦИЯ
@@ -164,6 +166,7 @@ class UserController extends AppController
         $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/validation/validate.min.js"];
         $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/styling/uniform.min.js"];
         $ASSETS[] = ["js" => "/assets/js/login_validation.js"];
+
 
         \APP\core\base\View::setAssets($ASSETS);
 

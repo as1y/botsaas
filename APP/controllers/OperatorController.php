@@ -2,6 +2,7 @@
 namespace APP\controllers;
 use APP\models\Operator;
 use APP\core\base\Model;
+use APP\models\Panel;
 use APP\models\Project;
 
 class OperatorController extends AppController {
@@ -66,9 +67,10 @@ class OperatorController extends AppController {
         if ($_POST['optionresult'] == "result") $operator->SetResult($_POST, $company);
 
 
+        if (!empty($_GET['perezvon'])){
 
 
-
+        }
 
 
 
@@ -76,7 +78,7 @@ class OperatorController extends AppController {
 
         if ($company['status'] != 1) {
             $_SESSION['errors'] = "Проект ".$company['company']." в данный момент не активен";
-            go("/operator/my/");
+            go("/operator/");
         }
 
         // МОМЕНТ С ПРОВЕРКОЙ И ДОБАВЛЕНИЕМ ЗАПИСИ!
@@ -89,13 +91,13 @@ class OperatorController extends AppController {
 
         if (empty($contactinfo)) {
             $_SESSION['errors'] = "У компании".$company['company']." закончилась база для обзвона. Попробуйте позднее";
-            go("/operator/my/");
+            go("/operator/");
         }
         //Ставим бронь
         $operator->setbron($contactinfo['id']);
         //Ставим бронь
 
-        if (empty($contactinfo['siteurl'])) $contactinfo['siteurl'] = "";
+        if (empty($contactinfo['sitename'])) $contactinfo['sitename'] = "";
         if (empty($contactinfo['comment'])) $contactinfo['comment'] = "";
         if (empty($contactinfo['namecont'])) $contactinfo['namecont'] = "";
         if (empty($contactinfo['namecompany'])) $contactinfo['namecompany'] = "";
@@ -115,7 +117,7 @@ class OperatorController extends AppController {
 
         if (empty($_GET['id'])){
             //$_SESSION['errors'] = "noparam";
-            redir ("/operator/my/");
+            redir ("/operator/");
         }
 
         $idc = $_GET['id'];
@@ -123,7 +125,7 @@ class OperatorController extends AppController {
 
         if ($company === false){
             $_SESSION['errors'] = "У Вас нет допуска к проекту";
-            redir ("/operator/my/");
+            redir ("/operator/");
         }
 
 
@@ -161,8 +163,9 @@ class OperatorController extends AppController {
                 $_SESSION['errors'] = "Ошибка в базе контактов №148. Обратить в тех. поддержку";
                 redir ("/operator/perezvon/");
             }
+            $perezvon = true;
 
-            $this->set(compact('company', 'contactinfo', 'script'));
+            $this->set(compact('company', 'contactinfo', 'script', 'perezvon'));
             return true;
 
 
@@ -178,7 +181,7 @@ class OperatorController extends AppController {
         $company = $operator->checkcompany($idc);
         if (empty($company)) {
             $_SESSION['errors'] = "Проект в данный момент не активен";
-            redir ("/operator/my/");
+            redir ("/operator/");
         }
 
         // Берем контакт на звонок
@@ -197,7 +200,7 @@ class OperatorController extends AppController {
         $contactinfo = $operator->newcontact($idc);
         if (empty($contactinfo)) {
             $_SESSION['errors'] = "На проекте ".$company['company']." закончилась база контактов";
-            redir ("/operator/my/");
+            redir ("/operator/");
         }
 
         //Ставим бронь
@@ -255,6 +258,8 @@ class OperatorController extends AppController {
     {
 
         $operator = new Operator();
+        $project = new Project;
+
         //Информация о компаниях клиента
 
         $META = [
@@ -275,14 +280,13 @@ class OperatorController extends AppController {
 
         $contactperezvon = $operator->getcontactuser(2);
 
+        $allzapis = $operator->allzapis($_SESSION['ulogin']['id'], "user");
 
 
-        $this->set(compact('contactperezvon'));
+        $this->set(compact('contactperezvon', 'allzapis'));
 
 
     }
-
-
 
     public function moderateAction()
     {
@@ -309,12 +313,12 @@ class OperatorController extends AppController {
 
         $contactmoderate = $operator->getcontactuser(5);
 
+        $allzapis = $operator->allzapis($_SESSION['ulogin']['id'], "user");
 
-        $this->set(compact('contactmoderate'));
+        $this->set(compact('contactmoderate','allzapis'));
 
 
     }
-
 
     public function dorabotkaAction()
     {
@@ -350,8 +354,6 @@ class OperatorController extends AppController {
 
     }
 
-
-
     public function successAction()
     {
 
@@ -384,10 +386,6 @@ class OperatorController extends AppController {
 
     }
     // РАБОТА С КОНТАКТАМИ
-
-
-
-
 
 
     public function allAction()
@@ -455,6 +453,113 @@ class OperatorController extends AppController {
     }
 
 
+
+    public function statAction()
+    {
+
+        $operator = new Operator(); //Вызываем Моудль
+
+        //Информация о компаниях клиента
+
+        $META = [
+            'title' => 'Статистика',
+            'description' => 'Статистика',
+            'keywords' => 'Статистика',
+        ];
+        \APP\core\base\View::setMeta($META);
+
+
+        $BREADCRUMBS['HOME'] = ['Label' => $this->BreadcrumbsControllerLabel, 'Url' => $this->BreadcrumbsControllerUrl];
+        $BREADCRUMBS['DATA'][] = ['Label' => "Все проекты"];
+        \APP\core\base\View::setBreadcrumbs($BREADCRUMBS);
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/tables/datatables/datatables.min.js"];
+        $ASSETS[] = ["js" => "/assets/js/datatables_basic.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/demo_pages/components_popups.js"];
+
+
+        \APP\core\base\View::setAssets($ASSETS);
+
+
+        $mystat = $operator->todaystat();
+
+        $result = $operator->topleaders();
+
+        if ($_POST){
+
+            if ($_POST['mycalls'] != $mystat['calls']){
+                $_SESSION['errors'] = "Системная ошибка";
+                redir();
+            }
+
+
+            $resultbonus = $operator->addbonuce();
+
+            if ($resultbonus == true){
+                $_SESSION['success'] = "Бонус начислен!";
+                redir('/panel/balance/');
+            }
+
+
+            if ($resultbonus == false){
+                $_SESSION['errors'] = "Бонус за сегодня Вам уже начислен";
+                redir();
+            }
+
+            exit("gdfg");
+
+        }
+
+
+        $Panel = new Panel();
+        $chat = $Panel->loadchatmessage(1);
+
+
+        $this->set(compact('mystat', 'result', 'chat'));
+
+
+
+
+    }
+
+    public function callsAction()
+    {
+
+        $operator = new Operator(); //Вызываем Моудль
+        $project = new Project(); //Вызываем Моудль
+
+        //Информация о компаниях клиента
+
+        $META = [
+            'title' => 'Статистика',
+            'description' => 'Статистика',
+            'keywords' => 'Статистика',
+        ];
+        \APP\core\base\View::setMeta($META);
+
+
+        $BREADCRUMBS['HOME'] = ['Label' => $this->BreadcrumbsControllerLabel, 'Url' => $this->BreadcrumbsControllerUrl];
+        $BREADCRUMBS['DATA'][] = ['Label' => "Все проекты"];
+        \APP\core\base\View::setBreadcrumbs($BREADCRUMBS);
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/tables/datatables/datatables.min.js"];
+        $ASSETS[] = ["js" => "/assets/js/datatables_basic.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/demo_pages/components_popups.js"];
+
+
+        \APP\core\base\View::setAssets($ASSETS);
+
+
+        $mycalls = $operator->mycalls();
+        $allzapis = $project->allzapis($_SESSION['ulogin']['id'], "user");
+
+
+        $this->set(compact('mycalls', 'allzapis'));
+
+
+
+
+    }
 
 
 

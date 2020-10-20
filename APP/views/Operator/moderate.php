@@ -53,7 +53,13 @@
                         ?>
 
                     </td>
-                    <td> <?= raskladkazapisi($val['datazapis'])?></td>
+                    <td>
+                        <?php
+                        $datazapis = $allzapis[$val['id']]['data'];
+                        ?>
+                        <?= raskladkazapisi($datazapis)?>
+
+                    </td>
                     <td >
 
                         <h3><?=$company['priceresult']?> </h3>

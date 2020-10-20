@@ -108,6 +108,101 @@ function e(string $error_message): void
 }
 
 
+
+
+function getPS($arPs , $method){
+    $PS = [];
+
+    foreach ($arPs['list'] as $key=>$val ){
+        if ($method == "qiwi" && $val['name'] == "QIWI"){
+            $PS['id'] = $key;
+            $PS['add'] = 0;
+        }
+        if ($method == "yamoney" && $val['name'] == "Яндекс.Деньги") {
+            $PS['id'] = $key;
+            $PS['add'] = 0;
+        }
+
+        if ($method == "cardvisa" && $val['name'] == "VISA") {
+            $PS['id'] = $key;
+            $PS['add'] = 45;
+        }
+
+        if ($method == "cardmaster" && $val['name'] == "MasterCard") {
+            $PS['id'] = $key;
+            $PS['add'] = 45;
+
+        }
+        if ($method == "cardmir" && $val['name'] == "МИР") {
+            $PS['id'] = $key;
+            $PS['add'] = 45;
+        }
+
+        if ($method == "cardukr" && $val['name'] == "Украинские банки") {
+            $PS['id'] = $key;
+            $PS['add'] = 45;
+        }
+    }
+
+    return $PS;
+}
+
+
+
+
+
+function SystemUserId(){
+    return  md5(uniqid().$_SERVER['REMOTE_ADDR'].$_SERVER['UNIQUE_ID']);
+}
+
+function gaUserIdGA(){
+
+    if (!empty($_COOKIE['_ga']))   return preg_replace("/^.+\.(.+?\..+?)$/", "\\1", $_COOKIE['_ga']);
+
+    return false;
+
+}
+
+
+function gaUserId(){
+
+
+    if (!empty($_COOKIE['dscid'])) return $_COOKIE['dscid'];
+
+
+    return false;
+
+
+
+//    return preg_replace("/^.+\.(.+?\..+?)$/", "\\1", $_COOKIE['_ga']);
+
+
+}
+
+
+function gtmBODY(){
+    ?>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLJVZF8"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <?php
+}
+
+function gtmHEAD(){
+    ?>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KLJVZF8');</script>
+    <!-- End Google Tag Manager -->
+    <?php
+}
+
+
+
 function skorogovorka(){
 
     $chislo = rand(1,3);
@@ -275,30 +370,60 @@ function fCURL($url, $PARAMS = []){
 
 }
 
-function validationpay($data, $type){
+function clearrequis($value){
 
-    $data = trim($data);
-    $data = strip_tags($data);
-    $data = htmlspecialchars($data);
+    $value = trim($value);
+    $value = strip_tags($value);
+    $value = htmlspecialchars($value);
+    $value = str_replace(" ", "", $value);
+
+    return $value;
+}
+
+
+function validationpay($type, $value){
+
+    $value = clearrequis($value);
 
     if ($type == "qiwi"){
-        $data = intval($data);
-        if (strlen($data) > 12) return "Qiwi кошелек не должен быть длиннее 10 символов";
-        if (strlen($data) < 5) return "Qiwi кошелек не должен быть длиннее 5 символов";
+        preg_match('/^\+\d{9,15}$/', $value, $matches);
+        if (!empty($matches)) return true;
+        if (empty($matches)) return false;
     }
 
 
     if ($type == "yamoney"){
-        $data = intval($data);
-        if (strlen($data) > 30) return "Яндекс.Деньги не должен быть длиннее 30 символов";
-        if (strlen($data) < 5) return "Яндекс.Деньги  не должен быть длиннее 5 символов";
+        preg_match('/^41001[0-9]{7,11}$/', $value, $matches);
+        if (!empty($matches)) return true;
+        if (empty($matches)) return false;
     }
 
-    if ($type == "card"){
-        $data = intval($data);
-        if (strlen($data) > 30) return "Номер карты не должен быть длиннее 30 символов";
-        if (strlen($data) < 5) return "Номер карты  не должен быть длиннее 5 символов";
+    if ($type == "cardvisa"){
+        preg_match('/^([45]{1}[\d]{15}|[6]{1}[\d]{17})$/', $value, $matches);
+        if (!empty($matches)) return true;
+        if (empty($matches)) return false;
     }
+
+
+    if ($type == "cardmaster"){
+        preg_match('/^([45]{1}[\d]{15}|[6]{1}[\d]{17})$/', $value, $matches);
+        if (!empty($matches)) return true;
+        if (empty($matches)) return false;
+    }
+
+    if ($type == "cardmir"){
+        preg_match('/^([245]{1}[\d]{15}|[6]{1}[\d]{17})$/', $value, $matches);
+        if (!empty($matches)) return true;
+        if (empty($matches)) return false;
+    }
+
+    if ($type == "cardukr"){
+        preg_match('/^([45]{1}[\d]{15}|[6]{1}[\d]{17})$/', $value, $matches);
+        if (!empty($matches)) return true;
+        if (empty($matches)) return false;
+    }
+
+
 
 
 

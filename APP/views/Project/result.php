@@ -34,7 +34,7 @@
                         <tr>
                             <td class="text-center">
 
-                                 <?=$val['datacall']?>
+                                <?=$val['datacall']?>
                             </td>
 
                             <td class="text-center">
@@ -61,7 +61,8 @@
                                 ?>
 
                             </td>
-                            <td> <?= raskladkazapisi($allzapis[$val['id']]['data'])?></td>
+                            <td>
+                                <?= raskladkazapisi($allzapis[$val['id']]['data'])?></td>
                             <td >
 
                                 <a href="/project/result/?id=<?=$company['id']?>&idresult=<?=$val['id']?>&action=accept" type="button" class="btn btn-success">ПОДТВЕРДИТЬ</a><br><br>
@@ -151,6 +152,7 @@
 
                             </td>
                             <td>
+
 
                                 <?= raskladkazapisi($allzapis[$val['contact_id']]['data'])?>
 

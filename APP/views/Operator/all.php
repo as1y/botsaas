@@ -5,6 +5,12 @@
 
     <div class="card-body">
 
+        <div class="alert alert-info alert-styled-left alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+            Подайте заявку на проекты в которых хотите совершать звонки
+        </div>
+
+
 <!-- <i class="icon-target2 mr-2" data-popup="tooltip" title="ЛИД"></i>-->
 <!--<i class="icon-people mr-2" data-popup="tooltip" title="ВСТРЕЧА"></i>-->
 <!--<i class="icon-price-tag mr-2" data-popup="tooltip" title="УЧАСТИЕ В АКЦИИ"></i>-->
@@ -21,7 +27,6 @@
                 <th>Цель</th>
                 <th>Требование</th>
                 <th>Оплата</th>
-                <th>Бонус</th>
                 <th>Действие</th>
 
             </tr>
@@ -61,10 +66,7 @@
 
 
                     </td>
-                    <td>
-                        <h5> <span class="badge badge-warning">+ <?=$val['bonuscall']?> руб.</span></h5>
-                        За <?=$val['mincall']?> звонков
-                    </td>
+
                     <?php
                     $mystatus = \APP\models\Operator::mystatusincompany($val);
                     $add = "";

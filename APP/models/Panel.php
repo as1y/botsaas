@@ -8,6 +8,9 @@ class Panel extends \APP\core\base\Model {
 
 
 
+
+
+
     public function invoicesuccess($id){
         $invoice = R::load("invoice", $id);
 
@@ -114,10 +117,144 @@ class Panel extends \APP\core\base\Model {
 
 
 
+    public function sendPostBackGA(){
+
+        $cid = gaUserId();
+
+        $PARAMS = [
+            'v' => 1,
+            't' => 'pageview',
+            'tid' => UA,
+            'cid' => $cid,
+            'dp' => 'postbackconvert2',
+        ];
+
+
+            $url = "https://www.google-analytics.com/collect";
+            $url = $url."?".http_build_query($PARAMS);
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $PARAMS);
+            curl_exec($ch);
+            curl_close($ch);
+
+
+
+    }
+
+
+
+
+    public function operatorsfunnel(){
+
+        $operators['ADV'] = R::count("users", "WHERE `role` = ? AND `systemuserid` is NOT NULL ", ["O"]);
+
+        $operators['ADVwork'] = R::count("users", "WHERE `role` = ? AND `systemuserid` is NOT NULL AND `totalcall` > 1  ", ["O"]);
+
+
+        $operators['advusers'] = R::findAll("users", "WHERE `role` = ? AND `systemuserid` is NOT NULL ", ["O"]);
+
+        $usertoday = R::findAll("usertoday");
+
+
+        // Берем статистику всех пользователей, кто заходил с рекламы
+        foreach ($usertoday as $user){
+            $izreklami[$user['sysuserid']] = $user;
+        }
+        // Берем статистику всех пользователей, кто заходил с рекламы
+
+
+        // Смотрим всех пользователей и кто зашел с рекламы плюсуем источник
+        foreach ( $operators['advusers'] as $user){
+
+            if (!empty($user['systemuserid'])) {
+                $source =  $izreklami[$user['systemuserid']]['utm_source'];
+              if (empty($allstat[$source])) {
+                  $allstat[$source] = 1;
+                  continue;
+              }
+                $allstat[$source]++;
+
+            }
+
+        }
+
+
+        $operators['allstat'] = [];
+        if (!empty($operators['allstat']))  $operators['allstat'] = $allstat;
+
+
+
+        return $operators;
+
+
+    }
+
+
+    public function getnewoperators(){
+
+        $operators = R::findALL("users", "WHERE `role` = ? AND `talk` != 1 ", ["O"]);
+        return $operators;
+    }
+
+
+
+
     public function getoperators($limit = 100){
         $operators = R::findALL("users", "WHERE role = ? AND aboutme != '' ORDER BY `datareg` DESC  LIMIT ".$limit." ", ["O"]);
         return $operators;
     }
+
+    public function getcustomoperators($mass = []){
+        $operators = R::loadAll("users", $mass);
+        return $operators;
+    }
+
+
+    public function loadchatmessage($room = 1){
+
+        $chat = R::findALL("chat", "WHERE room = ? LIMIT 100 ", [$room]);
+
+        if (empty($chat)) $chat = [];
+        return $chat;
+
+    }
+
+
+    public function addmessagechat($DATA){
+
+
+        $chat = R::dispense("chat");
+        $chat->time = date ("H:i:s");
+        $chat->message = $DATA['message'];
+        $chat->room = $DATA['room'];
+
+        $addchat = self::$USER->ownChatList[] = $chat;
+
+       R::store(self::$USER);
+
+
+        $result = [
+            'message' => $addchat->message,
+            'room' => $addchat->room,
+            'time' => $addchat->time,
+            'userid' => self::$USER['id'],
+            'username' => self::$USER['username'],
+            'avatar' => self::$USER['avatar'],
+            'woof' => self::$USER['woof'],
+        ];
+
+        return $result;
+
+
+    }
+
 
 
     public function createviplata($DATA){
@@ -129,7 +266,7 @@ class Panel extends \APP\core\base\Model {
             'users_id' => $_SESSION['ulogin']['id'],
             'date' => date("Y-m-d H:i:s"),
             'sum' => $DATA['summa'],
-            'comment' => "Вывод средств на <b>".$DATA['sposob']."<b>",
+            'comment' => "Вывод средств на <b>".$DATA['sposob']."</b>",
             'type' => "credit",
             'status' => 0,
             'method' => $DATA['sposob'],
@@ -140,6 +277,21 @@ class Panel extends \APP\core\base\Model {
 
 
         return true;
+    }
+
+
+    public function balancelogout(){
+        $balancelog = R::findAll("balancelog", "WHERE status = 0" );
+        return $balancelog;
+    }
+
+    public function payoutinfo($id){
+        $balancelog = R::findOne("balancelog", "WHERE `id` =? ", [$id] );
+
+        $result['sum'] = $balancelog['sum'];
+        $result['method'] = $balancelog['method'];
+        $result['number'] = json_decode($balancelog->users['requis'], true)[$result['method']];
+        return $result;
     }
 
 
@@ -155,27 +307,65 @@ class Panel extends \APP\core\base\Model {
     }
 
 
+    public function sucesspayout($id){
+
+        $balancelog = R::findOne("balancelog", "WHERE `id` =? ", [$id] );
+        $balancelog->status = 1;
+        R::store($balancelog);
+
+    }
+
 
     public function addrequis($DATA){
 
         if (!empty($DATA['qiwi'])){
             $requis = json_decode(self::$USER->requis, true);
+            $DATA['qiwi'] = clearrequis( $DATA['qiwi']);
             $requis['qiwi'] = $DATA['qiwi'];
             $requis = json_encode($requis, true);
             self::$USER->requis = $requis;
         }
 
+
         if (!empty($DATA['yamoney'])){
             $requis = json_decode(self::$USER->requis, true);
+            $DATA['yamoney'] = clearrequis( $DATA['yamoney']);
             $requis['yamoney'] = $DATA['yamoney'];
             $requis = json_encode($requis, true);
             self::$USER->requis = $requis;
         }
 
 
-        if (!empty($DATA['card'])){
+        if (!empty($DATA['cardvisa'])){
             $requis = json_decode(self::$USER->requis, true);
-            $requis['card'] = $DATA['card'];
+            $DATA['cardvisa'] = clearrequis( $DATA['cardvisa']);
+            $requis['cardvisa'] = $DATA['cardvisa'];
+            $requis = json_encode($requis, true);
+            self::$USER->requis = $requis;
+        }
+
+
+        if (!empty($DATA['cardmaster'])){
+            $requis = json_decode(self::$USER->requis, true);
+            $DATA['cardmaster'] = clearrequis( $DATA['cardmaster']);
+            $requis['cardmaster'] = $DATA['cardmaster'];
+            $requis = json_encode($requis, true);
+            self::$USER->requis = $requis;
+        }
+
+
+        if (!empty($DATA['cardmir'])){
+            $requis = json_decode(self::$USER->requis, true);
+            $DATA['cardmir'] = clearrequis( $DATA['cardmir']);
+            $requis['cardmir'] = $DATA['cardmir'];
+            $requis = json_encode($requis, true);
+            self::$USER->requis = $requis;
+        }
+
+        if (!empty($DATA['cardukr'])){
+            $requis = json_decode(self::$USER->requis, true);
+            $DATA['cardukr'] = clearrequis( $DATA['cardukr']);
+            $requis['cardukr'] = $DATA['cardukr'];
             $requis = json_encode($requis, true);
             self::$USER->requis = $requis;
         }
@@ -186,6 +376,82 @@ class Panel extends \APP\core\base\Model {
 
         return true;
     }
+
+
+    public function ApproveTalk($id){
+
+      $talk = R::load('users' ,$id);
+
+      $talk->talk = 1;
+      R::store($talk);
+
+      return true;
+
+    }
+
+
+
+    public function GenerateLink($DATA){
+
+        if (empty($DATA['traffictype'])) return false;
+
+
+        $link = "https://".CONFIG['DOMAIN']."/";
+
+
+
+        if ($DATA['traffictype'] == "googlesearch"){
+            $link .= "?utm_source=google&utm_medium=cpc&utm_campaign={network}&utm_content={creative}&utm_term={keyword}";
+        }
+
+        if ($DATA['traffictype'] == "yandexsearch"){
+            $link .= "?utm_source=yandex&utm_medium=cpc&utm_campaign={campaign_id}&utm_content={ad_id}&utm_term={keyword}";
+        }
+
+
+        return $link;
+
+
+    }
+
+
+
+    public function AddUtminBD($DATA)
+    {
+
+        $UTM = [
+            'utm_source' => "",
+            'utm_medium' => "",
+            'utm_campaign' => "",
+            'utm_content' => "",
+            'utm_term' => "",
+        ];
+
+        foreach ($UTM as $key=>$value){
+
+            if (!empty($DATA[$key])) $UTM[$key] = $DATA[$key];
+        }
+
+        $UTM['sysuserid'] = $_SESSION['SystemUserId'];
+        $UTM['gaid'] = gaUserIdGA();
+        $UTM['cid'] = gaUserId();
+
+
+        $UTM['date'] = date("Y-m-d H:i:s");
+
+
+
+
+        $this->addnewBD("usertoday", $UTM);
+
+
+
+        return $UTM;
+
+
+
+    }
+
 
 
 
@@ -331,6 +597,43 @@ class Panel extends \APP\core\base\Model {
     }
 
 
+
+
+    public function bonusrefu()
+    {
+
+        // Берем всех пользователей которых привели рефы
+        $usersref = R::findAll("users", "WHERE `ref` is not NULL");
+
+
+        foreach ($usersref as $refferal){
+
+            $refovod = R::findOne("users", "WHERE `id` =? ",[$refferal['ref']]);
+
+
+            echo " ".$refovod['username']." привел ".$refferal['username']." <br>";
+
+
+
+            if (!empty($refferal['totalcall']) && $refferal['totalcall'] > 500 && empty($refferal['bonusrefu']) ){
+                $refferal->bonusrefu = 500;
+                R::store($refferal);
+
+
+                $this->addbalanceuser($refovod, "500", "Начисление бонуса за звонки рефферала ".$refferal['username']." " );
+
+                echo  "Начислен бонус пользователю ".$refovod['username']." за пользователя  ".$refferal['username']." <br> ";
+
+            }
+
+
+        }
+
+
+
+        return true;
+
+    }
 
 
 

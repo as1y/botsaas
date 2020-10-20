@@ -1,6 +1,9 @@
 <?php
 namespace APP\core\base;
 use RedBeanPHP\R;
+use APP\models\Panel;
+use APP\models\Operator;
+
 
 abstract class Model
 {
@@ -169,6 +172,23 @@ abstract class Model
     }
 
 
+    public static function myproject() {
+        $myproject['my'] = 0;
+
+        $operator = new Operator();
+        $mycompanies = $operator->mycompanies();
+
+        $allcompanies = $operator->allcompanies();
+
+        $myproject['my'] = count($mycompanies);
+        $myproject['all'] = count($allcompanies);
+
+	    return $myproject;
+
+    }
+
+
+
 
     public static function contact($id, $type = "company") {
 
@@ -198,6 +218,8 @@ abstract class Model
         return $contact;
 
     }
+
+
     public static function getres($id, $type = "company") {
         if ($type == "company")  $mass = R::findAll("result", "WHERE company_id = ?", [$id]);
         if ($type == "user")  $mass = R::findAll("result", "WHERE users_id = ?", [$id]);
@@ -225,6 +247,9 @@ abstract class Model
 
         if ($type == "company")  $allrecord = R::find( 'records' , 'WHERE  company_id = ?', [$id] );
         if ($type == "user")  $allrecord = R::find( 'records' , 'WHERE  users_id = ?', [$id] );
+
+        if ($type == "contid")  $allrecord = R::find( 'records' , 'WHERE  contact_id = ?', [$id] );
+
 
         $MASS = [];
         foreach ($allrecord as $key=>$val){
@@ -337,6 +362,8 @@ abstract class Model
 
     public function filevalidation($FILE, $PARAMS = []){
 
+
+
         if ($FILE['size'] > 3000000) {
             $this->errors[] = ['Файл' => "Размер не должен превышать 3МБ" ];
             return false;
@@ -378,6 +405,31 @@ abstract class Model
 
 
     }
+
+
+
+    public static function SaveUsr (){
+
+
+        if (!empty($_GET['utm_source']) && $_GET['utm_source']){
+
+
+            $Panel =  new Panel();
+            $_SESSION['SystemUserId'] = SystemUserId();
+            $Panel->AddUtminBD($_GET);
+
+
+
+
+        }
+
+
+
+
+
+
+    }
+
 
 
 

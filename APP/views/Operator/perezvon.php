@@ -13,12 +13,13 @@
                 <th>ID</th>
                 <th>ИМЯ</th>
                 <th>МОЙ КОММЕНТАРИЙ</th>
+                <th>ЗАПИСЬ РАЗГОВОРА</th>
                 <th>ДАТА ПЕРЕЗВОНА</th>
                 <th>ДЕЙСТВИЕ</th>
             </tr>
             </thead>
 
-            
+
             <tbody>
             <?
             foreach ($contactperezvon as $row):?>
@@ -37,6 +38,15 @@
                 <td><?=$row['id'];?></td>
                 <td><?=$row['name'];?></td>
                 <td><?=$row['operatorcomment'];?></td>
+
+                <td>
+                    <?php
+                    $datazapis = $allzapis[$row['id']]['data'];
+                    ?>
+                    <?= raskladkazapisi($datazapis)?>
+
+                </td>
+
                 <td><?=$data;?></td>
                 <td>
                     <a class='btn btn-danger' href='/operator/call/?id=<?=json_decode($row['company'], true)['id']?>&perezvon=<?=$row['id'];?>'> ПЕРЕЗВОНИТЬ</a>

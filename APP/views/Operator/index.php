@@ -11,7 +11,10 @@
 
     </div>
     <div class="card-body">
-
+        <div class="alert alert-info alert-styled-left alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+            <span class="font-weight-semibold">Что-то не получается?</span> Обратитесь в раздел <a href="/panel/faq/" target="_blank" class="alert-link">Помощь</a>
+        </div>
 
         <?php
         if ($statuscall['acess'] === false){
@@ -50,11 +53,6 @@
                                 <tr>
                                     <td>Оплата</td>
                                     <td> <b> <?=$val['priceresult']?> руб.</b></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Бонусы</td>
-                                    <td>   За <?=$val['mincall']?> звонков <b> <?=$val['bonuscall']?> руб.</b></td>
                                 </tr>
 
                             </table>

@@ -54,16 +54,31 @@
 
 
                     <li class="nav-item">
+                        <a href="/operator/stat" class="nav-link <?=isset($active['stat']) ? $active['stat'] : ''; ?>">
+                            <i class="icon-stats-bars2"></i>
+                            <span>	Статистика </span>
+                        </a>
+                    </li>
+
+                    <?php
+                    $myproject = \APP\core\base\Model::myproject();
+
+
+                    ?>
+
+                    <li class="nav-item">
                         <a href="/operator/" class="nav-link <?=isset($active['index']) ? $active['index'] : ''; ?>">
                             <i class="icon-briefcase3"></i>
-                            <span>	Моя работа </span>
+                            <span>	Мои проекты </span>
+                            <span class="badge badge-pill bg-secondary ml-auto"><?=$myproject['my']?></span>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="/operator/all/" class="nav-link <?=isset($active['all']) ? $active['all'] : ''; ?>">
                             <i class="icon-star-full2"></i>
-                            <span>	ВСЕ ПРОЕКТЫ </span>
+                            <span>	Каталог проектов </span>
+                            <span class="badge badge-pill bg-secondary ml-auto"><?=$myproject['all']?></span>
                         </a>
                     </li>
 
@@ -80,6 +95,16 @@
                     <li class="nav-item-header">
                         <div class="text-uppercase font-size-sm line-height-sm">РЕЗУЛЬТАТЫ</div>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="/operator/calls/" class="nav-link <?=isset($active['calls']) ? $active['calls'] : ''; ?>">
+                            <i class="icon-phone2"></i>
+                            <span>	Звонки </span>
+                            <span class="badge badge-pill bg-secondary ml-auto"><?=$contact['all']?></span>
+                        </a>
+                    </li>
+
+
                     <li class="nav-item">
                         <a href="/operator/perezvon/" class="nav-link <?=isset($active['perezvon']) ? $active['perezvon'] : ''; ?>">
                             <i class="icon-calendar"></i>

@@ -61,6 +61,38 @@
                     </li>
 
 
+                    <?php if ($_SESSION['ulogin']['email'] == "raskrutkaweb@yandex.ru"): ?>
+                    <li class="nav-item">
+                        <a href="/panel/payout/" class="nav-link <?=isset($active['payout']) ? $active['payout'] : ''; ?>">
+                            <i class="icon-coin-dollar"></i>
+                            <span>	Выводы </span>
+                        </a>
+                    </li>
+                <?php endif;?>
+
+
+                    <?php if ($_SESSION['ulogin']['email'] == "raskrutkaweb@yandex.ru"): ?>
+                        <li class="nav-item">
+                            <a href="/panel/newoperators/" class="nav-link <?=isset($active['newoperators']) ? $active['newoperators'] : ''; ?>">
+                                <i class="icon-user-plus"></i>
+                                <span>	Операторы</span>
+                            </a>
+                        </li>
+                    <?php endif;?>
+
+
+
+                    <?php if ($_SESSION['ulogin']['email'] == "raskrutkaweb@yandex.ru"): ?>
+                        <li class="nav-item">
+                            <a href="/panel/generatelink/" class="nav-link <?=isset($active['generatelink']) ? $active['generatelink'] : ''; ?>">
+                                <i class="icon-link2"></i>
+                                <span>	Генератор ссылок</span>
+                            </a>
+                        </li>
+                    <?php endif;?>
+
+
+
                     <li class="nav-item">
                         <a href="/master/" class="nav-link <?=isset($active['index']) ? $active['index'] : ''; ?>">
                             <i class="icon-home4"></i>

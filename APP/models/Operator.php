@@ -37,11 +37,16 @@ class Operator extends \APP\core\base\Model {
 
     public function SetOtkaz($DATA, $company){
 
+
+
         $contact = $this->loadcontact($DATA['contactid']);
+
+
         $contact->status = 3;
         $contact->datacall = date("Y-m-d");
         $contact->operatorcomment = $DATA['operatorcomment'];
         R::store($contact);
+
 
         $this->pluscall();
 
@@ -64,6 +69,7 @@ class Operator extends \APP\core\base\Model {
 
         $zapis = R::findOne("records", "WHERE contact_id =? " , [$idcont]);
 
+
         $DATAZAPIS = getrecord2($idcont);
 
         if (empty($zapis)){
@@ -80,9 +86,7 @@ class Operator extends \APP\core\base\Model {
 
 
         if (!empty($zapis)){
-
-
-            $zapis->DATA = $DATAZAPIS;
+            $zapis->DATA = json_encode($DATAZAPIS, true);
             R::store($zapis);
 
         }
@@ -143,7 +147,7 @@ class Operator extends \APP\core\base\Model {
 
 
 
-        $DATAZAPIS = $this->addzapis($DATA['contactid'], $company);
+        $this->addzapis($DATA['contactid'], $company);
 
         //ПРОВЕРКА ЕСТЬ ЛИ ТАКОЙ КОНТАКТ
 
@@ -151,7 +155,7 @@ class Operator extends \APP\core\base\Model {
 
         $this->pluscall();
 
-
+        $this->plusresult();
 
 
         $komy = R::Load("users", $company['client_id']);
@@ -164,8 +168,8 @@ class Operator extends \APP\core\base\Model {
         ];
 
 
-        if ($komy['nmessages'] == 1)
-            Mail::sendMail("newresult", "Успешный звонок! - ".CONFIG['NAME'], $USN, ['to' => [['email' =>$komy['email']]]] );
+//        if ($komy['nmessages'] == 1)
+//            Mail::sendMail("newresult", "Успешный звонок! - ".CONFIG['NAME'], $USN, ['to' => [['email' =>$komy['email']]]] );
 
 
 
@@ -192,6 +196,8 @@ class Operator extends \APP\core\base\Model {
         $contact->datacall = date("Y-m-d");
         $contact->operatorcomment = $DATA['operatorcomment'];
         R::store($contact);
+
+
 
         $this->addzapis($DATA['contactid'], $company);
 
@@ -232,10 +238,90 @@ class Operator extends \APP\core\base\Model {
 
     public function allcompanies() {
         $companyDB = R::findAll('company', 'WHERE status != 2');
-
-
-
         return $companyDB;
+    }
+
+
+    public function addbonuce(){
+
+        $datedoday = date("Y-m-d");
+
+         $bilaliviplata =  R::findOne('paybonus', 'WHERE user_id =? AND `date` =? ', [$_SESSION['ulogin']['id'], $datedoday]);
+
+
+         if (!empty($bilaliviplata)) return false;
+
+         if (empty($bilaliviplata)){
+
+             $user = R::load(CONFIG['USERTABLE'], $_SESSION['ulogin']['id']);
+             $this->addbalanceuser($user, 300, "Начисление бонуса за KPI");
+
+
+             $DATA = [
+                 'user_id' => $_SESSION['ulogin']['id'],
+                'date' => $datedoday
+                 ];
+
+
+             $this->addnewBD("paybonus", $DATA);
+
+
+
+         }
+
+
+
+        return true;
+
+    }
+
+
+
+
+    public function topleaders(){
+
+        $datedoday = date("Y-m-d");
+
+
+        // ЗВОНКИ СО СТАТУСОМ
+        $result['all'] = R::findAll('contact', 'WHERE  (`status` = 5 OR `status` = 8) AND datacall =? LIMIT 10', [$datedoday]);
+
+        $result['group'] = R::findAll('contact', 'WHERE (`status` = 5 OR `status` = 8) AND datacall =? GROUP BY `users_id` LIMIT 10 ', [$datedoday]);
+
+
+        return $result;
+
+    }
+
+
+
+    public function mycalls(){
+
+        // ЗВОНКИ СО СТАТУСОМ
+        $mycalls = R::findAll('contact', 'WHERE `users_id` =? AND `status` != 1  ', [$_SESSION['ulogin']['id']]);
+
+
+        return $mycalls;
+
+    }
+
+
+    public function todaystat(){
+
+        $datedoday = date("Y-m-d");
+
+        // ЗВОНКИ СО СТАТУСОМ
+        $calltoday['calls'] = R::count('contact', 'WHERE datacall =? AND `users_id` =? AND `status` != 4 AND `status` !=1  ', [$datedoday, $_SESSION['ulogin']['id']]);
+
+        // УСПЕШНЫЕ ЗВОНКИ
+        $calltoday['moderate'] = R::count('contact', 'WHERE datacall =? AND `users_id` =? AND `status` = 5', [$datedoday, $_SESSION['ulogin']['id']]);
+
+        // МОДЕРАЦИЯ
+        $calltoday['result'] = R::count('contact', 'WHERE datacall =? AND `users_id` =? AND `status` = 8', [$datedoday, $_SESSION['ulogin']['id']]);
+
+
+        return $calltoday;
+
     }
 
 
@@ -331,8 +417,22 @@ class Operator extends \APP\core\base\Model {
         return R::findOne('contact', 'company_id = ? AND users_id =? AND status = 1', [$idc, $_SESSION['ulogin']['id']]);
     }
 
+
+    public  function plusresult(){
+
+        $userall = R::load('users', $_SESSION['ulogin']['id']);
+        $userall->totalresult = $userall['totalresult'] +1;
+        R::store($userall);
+
+    }
+
+
     public  function pluscall(){
-            return R::exec (' UPDATE users SET totalcall = totalcall +1 WHERE id = '.$_SESSION['ulogin']['id'].'  ');
+
+        $userall = R::load('users', $_SESSION['ulogin']['id']);
+        $userall->totalcall = $userall['totalcall'] +1;
+        R::store($userall);
+
         }
 
 

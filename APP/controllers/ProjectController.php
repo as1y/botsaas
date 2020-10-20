@@ -519,10 +519,8 @@ class ProjectController extends AppController {
 
         if($this->isAjax()){
 
-
             $idc = $_POST['idc'];
             iconv_strlen($_POST['script'], 'UTF-8');
-
 
              $project->setscript($_POST);
 

@@ -37,7 +37,9 @@ function generateprofilelink($user = ""){
 
 function raskladkazapisi($DATA) {
 
-    if (!$DATA) return "Запись отсутсвует<br />";
+
+
+    if (empty($DATA)) return "Запись отсутсвует<br />";
 
     $DATA = json_decode($DATA, true);
 
@@ -45,30 +47,88 @@ function raskladkazapisi($DATA) {
     $records = '';
 
     foreach ($DATA as $key=>$val){
-        if (!empty($val['records']['0'])){
-            $date = $val['start_date'];
-            $url = $val['records']['0']['record_url'];
 
-//            $a = "<i class='icon-calendar3'></i>".$date."<p><audio src='".$val['records']['0']['record_url']."' controls></audio></p>";
+        foreach ($val['records'] as $record){
+            if (!empty($record)){
+                    $date = $val['start_date'];
+                    $url = $record['record_url'];
+                     $a = "<i class='icon-calendar3'></i>".$date."<p><a href='".$url."' target='_blank' >ЗАПИСЬ</a><hr>";
 
-            $a = "<i class='icon-calendar3'></i>".$date."<p><a href='".$val['records']['0']['record_url']."' target='_blank' >ЗАПИСЬ</a> ";
+                if (!isset($url)) $a = "<p>Без записи</p>";
+                $records = $records.$a;
 
+            }
 
-            if (!isset($url)) $a = "<p>Без записи</p>";
-            $records = $records.$a;
         }
-
-        if (empty($val['records']['0'])) return "Запись отсутсвует<br />";
-
     }
 
+        return $records;
 
-    return $records;
+
+//        if (!empty($val['records'][$key])){
+//            $date = $val['start_date'];
+//            $url = $val['records'][$key]['record_url'];
+//
+////            $a = "<i class='icon-calendar3'></i>".$date."<p><audio src='".$val['records']['0']['record_url']."' controls></audio></p>";
+//
+//            $a = "<i class='icon-calendar3'></i>".$date."<p><a href='".$val['records'][$key]['record_url']."' target='_blank' >ЗАПИСЬ</a> ";
+//
+//
+//            if (!isset($url)) $a = "<p>Без записи</p>";
+//            $records = $records.$a;
+//        }
+
+        //if (empty($val['records']['0'])) return "Запись отсутсвует<br />";
+
+
+
+
 
 
 }
 
 
+
+function rendermessage($messages, $rendertype = "html"){
+
+    if ($rendertype == "html"){
+        $avatar = $messages->users['avatar'];
+        $username = $messages->users['username'];
+        $woof = $messages->users['woof'];
+        $usermass['username'] = $messages->users['username'];
+        $usermass['id'] = $messages->users['id'];
+    }
+
+    if ($rendertype == "ajax"){
+        $avatar = $messages['avatar'];
+        $username = $messages['username'];
+        $woof = $messages['woof'];
+        $usermass['username'] = $messages['username'];
+        $usermass['id'] = $messages['userid'];
+    }
+
+
+
+?>
+    <li class="media">
+        <div class="mr-3"><img src="<?=$avatar?>" class="rounded-circle" width="40" height="40" alt=""></div>
+        <div class="media-body">
+            <div class="media-title d-flex flex-nowrap">
+                <a href="<?=generateprofilelink($usermass)?>"  target="_blank" class="font-weight-semibold mr-3">
+                    <?=$username?>
+                    <?php if ($woof == 1): ?>
+                        <b> (АДМИНИСТРАТОР)</b>
+                    <?php endif?>
+                </a>
+                <span class="font-size-sm text-muted text-nowrap ml-auto"><?=$messages['time']?></span>
+            </div>
+            <?=$messages['message']?>
+        </div>
+    </li>
+
+<?php
+
+}
 
 
 

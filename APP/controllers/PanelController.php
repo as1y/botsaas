@@ -1,6 +1,7 @@
 <?php
 namespace APP\controllers;
 use APP\core\Cache;
+use APP\core\Cpayeer;
 use APP\models\Addp;
 use APP\models\Panel;
 use APP\core\base\Model;
@@ -134,6 +135,235 @@ class PanelController extends AppController {
 
     }
 
+    public function payoutAction(){
+        $Panel =  new Panel();
+
+        if ($_SESSION['ulogin']['woof'] != 1) exit();
+
+        $META = [
+            'title' => 'Вывод баланса пользователями',
+            'description' => 'Вывод баланса пользователями',
+            'keywords' => 'Вывод баланса пользователями',
+        ];
+        \APP\core\base\View::setMeta($META);
+
+        if ($_SESSION['ulogin']['role'] == "R") $BREADCRUMBS['HOME'] = ['Label' => "Кабинет рекламодателя", 'Url' => "/master"];
+        if ($_SESSION['ulogin']['role'] == "O") $BREADCRUMBS['HOME'] = ['Label' => "Кабинет  оператора", 'Url' => "/operator"];
+        $BREADCRUMBS['DATA'][] = ['Label' => "Вывод баланса пользователями"];
+        \APP\core\base\View::setBreadcrumbs($BREADCRUMBS);
+
+
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/tables/datatables/datatables.min.js"];
+        $ASSETS[] = ["js" => "/assets/js/datatables_basic.js"];
+        \APP\core\base\View::setAssets($ASSETS);
+
+
+
+        $accountNumber = PaccountNumber;
+        $apiId = PapiId;
+        $apiKey = PapiKey;
+
+
+        if (!empty($_GET) && !empty($_GET['id'])){
+
+            $payoutinfo = $Panel->payoutinfo($_GET['id']);
+
+
+            $payeer = new CPayeer($accountNumber, $apiId, $apiKey);
+
+
+            //Получение списка платежных систем
+
+            if ($payeer->isAuth()) $arPs = $payeer->getPaySystems();
+
+
+            // Получение списка платежных систем
+            $PS = getPS($arPs, $payoutinfo['method'])['id'];
+            $sum = $payoutinfo['sum'];
+
+
+            if ($payeer->isAuth())
+            {
+                $initOutput = $payeer->initOutput(array(
+                    'ps' => $PS,
+                    'sumIn' => $sum,
+                    'curIn' => 'RUB',
+                    'curOut' => 'RUB',
+                    'param_ACCOUNT_NUMBER' => $payoutinfo['number']
+                ));
+
+                if ($initOutput)
+                {
+                    $historyId = $payeer->output();
+                    if ($historyId > 0)
+                    {
+
+                        //echo "Выплата успешна";
+
+                        $Panel->sucesspayout($_GET['id']);
+                        redir("/panel/payout/");
+
+
+
+                    }
+                    else
+                    {
+                        echo '<pre>'.print_r($payeer->getErrors(), true).'</pre>';
+                    }
+                }
+                else
+                {
+                    echo '<pre>'.print_r($payeer->getErrors(), true).'</pre>';
+                }
+            }
+            else
+            {
+                echo '<pre>'.print_r($payeer->getErrors(), true).'</pre>';
+            }
+
+
+            exit();
+
+
+
+
+        }
+
+
+
+
+
+        $balancelogout = $Panel->balancelogout();
+
+
+
+        $this->set(compact('balancelogout'));
+
+    }
+
+
+
+    public function generatelinkAction()
+    {
+
+        //Информация о компаниях клиента
+
+        $Panel =  new Panel();
+
+
+        $META = [
+            'title' => 'Создание ссылки для',
+            'description' => 'Создание ссылки',
+            'keywords' => 'Создание ссылки',
+        ];
+
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/extensions/jquery_ui/interactions.min.js"];
+
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/wizards/steps.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/selects/select2.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/styling/uniform.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/inputs/inputmask.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/validation/validate.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/extensions/cookie.js"];
+
+        $ASSETS[] = ["js" => "/assets/js/form_wizard.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/demo_pages/form_select2.js"];
+
+
+
+        if ($_POST){
+            $link = $Panel->GenerateLink($_POST);
+            if ($link === false){
+                $_SESSION['errors'] = "Заполните все поля";
+                redir();
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+        \APP\core\base\View::setAssets($ASSETS);
+
+
+        \APP\core\base\View::setMeta($META);
+
+
+
+
+
+
+        $this->set(compact( 'link'));
+
+
+
+
+    }
+
+
+    public function newoperatorsAction()
+    {
+
+        //Информация о компаниях клиента
+
+        $Panel =  new Panel();
+
+
+        $META = [
+            'title' => 'Создание ссылки для',
+            'description' => 'Создание ссылки',
+            'keywords' => 'Создание ссылки',
+        ];
+
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/extensions/jquery_ui/interactions.min.js"];
+
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/wizards/steps.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/selects/select2.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/styling/uniform.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/inputs/inputmask.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/validation/validate.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/extensions/cookie.js"];
+
+        $ASSETS[] = ["js" => "/assets/js/form_wizard.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/demo_pages/form_select2.js"];
+
+
+
+        if ($_GET){
+
+            $Panel->ApproveTalk($_GET['id']);
+
+            $_SESSION['success'] = "";
+
+        }
+
+
+        \APP\core\base\View::setAssets($ASSETS);
+
+        \APP\core\base\View::setMeta($META);
+
+
+        $operators = $Panel->getnewoperators();
+        $operatorsfunnel = $Panel->operatorsfunnel();
+
+
+        $this->set(compact( 'link', 'operators', 'operatorsfunnel' ));
+
+
+
+
+    }
+
 
 
 
@@ -174,79 +404,57 @@ class PanelController extends AppController {
         if (empty($requis)) $requis = [];
 
 
+
         if ($_POST && $_GET['action'] == "changerequis"){
 
-            if (!empty($_POST['qiwi'])){
+            foreach ($_POST as $key=>$value){
+                if (!empty($value) && empty($requis[$key])){
 
-                if (empty($requis['qiwi'])){
-                    //Добавляем новый QIWI кошелек
-                   $result = validationpay($_POST['qiwi'], "qiwi");
-                   if ($result == 1){
-                       $Panel->addrequis($_POST);
-                       $_SESSION['success'] .= "QIWI кошелек успешно добавлен!";
-                       redir("/panel/cashout/");
-                   }else{
-                       $_SESSION['errors'] .= $result."<br>";
-                   }
+                    $result = validationpay($key, $value);
 
-                }
 
-                if (!empty($requis['qiwi']) && $_POST['qiwi'] != $requis['qiwi']  ){
-                    $_SESSION['errors'] .= "Вы уже заполнили QIWI кошелек. Изменить реквизиты возможно только через тех. поддержку<br>";
-                }
+                    if ($result == true){
 
-            }
-
-            if (!empty($_POST['yamoney'])){
-
-                if (empty($requis['yamoney'])){
-                    //Добавляем новый Яндекс.Кошелек кошелек
-                    $result = validationpay($_POST['yamoney'], "yamoney");
-                    if ($result == 1){
                         $Panel->addrequis($_POST);
-                        $_SESSION['success'] .= "Яндекс.Кошелек успешно добавлен!";
-                        redir("/panel/cashout/");
-                    }else{
-                        $_SESSION['errors'] .= $result."<br>";
+                        if (empty($_SESSION['success'])) $_SESSION['success'] = "";
+                        $_SESSION['success'] .= "Метод оплаты $key успешно добавлен! <br>";
+
+
+                    }
+                    if ($result == false){
+                        if (empty($_SESSION['errors'])) $_SESSION['errors'] = "";
+                        $_SESSION['errors'] .= "Ошибка в заполнеии метода оплаты $key <br>";
+
+
                     }
 
                 }
 
-                if (!empty($requis['yamoney']) && $_POST['yamoney'] != $requis['yamoney']  ){
-                    $_SESSION['errors'] .= "Вы уже заполнили Яндекс.Кошелек Изменить реквизиты возможно только через тех. поддержку<br>";
-                }
 
             }
 
-            if (!empty($_POST['card'])){
+            redir();
 
-                if (empty($requis['card'])){
-                    //Добавляем новый Яндекс.Кошелек кошелек
-                    $result = validationpay($_POST['card'], "card");
-                    if ($result == 1){
-                        $Panel->addrequis($_POST);
-                        $_SESSION['success'] .= "Номер карты успешно добавлен!";
-                        redir("/panel/cashout/");
-                    }else{
-                        $_SESSION['errors'] .= $result."<br>";
-                    }
-
-                }
-
-                if (!empty($requis['card']) && $_POST['card'] != $requis['card']  ){
-                    $_SESSION['errors'] .= "Вы уже заполнили Номер карты. Изменить реквизиты возможно только через тех. поддержку<br>";
-                }
-
-            }
-
-            redir("/panel/cashout/");
 
         }
 
         if ($_POST && $_GET['action'] == "viplata"){
 
-            if ($Panel::$USER->bal < 500){
-                $_SESSION['errors'] = "Минимальный заказ выплаты 500 рублей";
+
+            if (empty($_POST['summa']) ){
+                $_SESSION['errors'] = "Укажите сумму вывода";
+                redir("/panel/cashout/");
+            }
+
+
+
+            if (empty($_POST['sposob'])){
+                $_SESSION['errors'] = "Укажите способ вывода";
+                redir("/panel/cashout/");
+            }
+
+            if ($Panel::$USER->bal < 300){
+                $_SESSION['errors'] = "Минимальный заказ выплаты 300 рублей";
                 redir("/panel/cashout/");
             }
 
@@ -857,7 +1065,7 @@ class PanelController extends AppController {
 
 
         $META = [
-            'title' => 'FAQ',
+            'title' => 'Помощь',
             'description' => 'FAQ',
             'keywords' => 'FAQ',
         ];
@@ -909,8 +1117,136 @@ class PanelController extends AppController {
 
     }
 
+    public function ratingAction(){
 
 
+        $Panel =  new Panel();
+
+
+        $META = [
+            'title' => 'Каталог операторов',
+            'description' => 'Каталог операторов',
+            'keywords' => 'Каталог операторов',
+        ];
+
+        $BREADCRUMBS['HOME'] = ['Label' => $this->BreadcrumbsControllerLabel, 'Url' => $this->BreadcrumbsControllerUrl];
+        $BREADCRUMBS['DATA'][] = ['Label' => "FAQ"];
+
+        \APP\core\base\View::setMeta($META);
+        \APP\core\base\View::setBreadcrumbs($BREADCRUMBS);
+
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/tables/datatables/datatables.min.js"];
+        $ASSETS[] = ["js" => "/assets/js/datatables_basic.js"];
+        \APP\core\base\View::setAssets($ASSETS);
+
+
+        $operators = $Panel->getoperators();
+
+        $this->set(compact('operators'));
+
+
+
+
+    }
+
+
+    public function otziviAction(){
+
+
+        $Panel =  new Panel();
+
+
+        $META = [
+            'title' => 'ОТЗЫВЫ ОПЕРАТОРОВ',
+            'description' => 'Каталог операторов',
+            'keywords' => 'Каталог операторов',
+        ];
+
+        $BREADCRUMBS['HOME'] = ['Label' => $this->BreadcrumbsControllerLabel, 'Url' => $this->BreadcrumbsControllerUrl];
+        $BREADCRUMBS['DATA'][] = ['Label' => "FAQ"];
+
+        \APP\core\base\View::setMeta($META);
+        \APP\core\base\View::setBreadcrumbs($BREADCRUMBS);
+
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/tables/datatables/datatables.min.js"];
+        $ASSETS[] = ["js" => "/assets/js/datatables_basic.js"];
+        \APP\core\base\View::setAssets($ASSETS);
+
+
+        $operators = $Panel->getcustomoperators([]);
+
+        $this->set(compact('operators'));
+
+
+
+
+    }
+
+
+
+    public function chatAction(){
+
+
+        $Panel =  new Panel();
+
+
+        $META = [
+            'title' => 'ОТЗЫВЫ ОПЕРАТОРОВ',
+            'description' => 'Каталог операторов',
+            'keywords' => 'Каталог операторов',
+        ];
+
+        $BREADCRUMBS['HOME'] = ['Label' => $this->BreadcrumbsControllerLabel, 'Url' => $this->BreadcrumbsControllerUrl];
+        $BREADCRUMBS['DATA'][] = ['Label' => "FAQ"];
+
+        \APP\core\base\View::setMeta($META);
+        \APP\core\base\View::setBreadcrumbs($BREADCRUMBS);
+
+
+        // Загрузка чата
+
+        // Отправка сообщения
+        if($this->isAjax()){
+            $this->layaout = false;
+
+
+            // Запись сообщения в БД
+            if (!empty($_POST['message']) && !empty($_POST['room']) ) {
+                $message = $Panel->addmessagechat($_POST);
+                echo json_encode($message);
+            }
+            // Запись сообщения в БД
+
+
+            // Рендеринг готового сообщения
+            if (!empty($_POST['data']) && !empty($_POST['type']) ) {
+
+                $DATA = json_decode($_POST['data'], true);
+
+               rendermessage($DATA, $rendertype = "ajax");
+
+
+
+            }
+            // Рендеринг готового сообщения
+
+
+
+
+        }
+
+
+        $chat = $Panel->loadchatmessage(1);
+
+
+        $this->set(compact('chat'));
+
+
+
+
+    }
 
 
 

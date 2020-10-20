@@ -1,5 +1,14 @@
 <?php
 
+
+// API payeer
+define('PaccountNumber', 'P1025419472');
+define('PapiId', '1166937465');
+define('PapiKey', 'DMqVCcEbeZOw');
+// API payeer
+
+define('UA', 'UA-173141725-4');
+
 // API VOXIMPLANT
 $account_id = '1895581';
 $api_key = 'a7c15131-6186-482d-a619-84c2be598655';
@@ -7,9 +16,11 @@ $api_key = 'a7c15131-6186-482d-a619-84c2be598655';
 
 
 // ПОЛЬЗОВАТЕЛЬ VOXIMPLANT
-define('VOXIMPLANTUSER', 'vitya@zarabotat.victorpseo.voximplant.com');
 define('VOXuser', 'vitya');
-define('VOXpass', 'testPassword');
+define('VOXpass', 'H}jU7ZhV');
+
+// Корректный пример заполнения victor@psalerstest.dmitrytakser.n4.voximplant.com
+define('VOXIMPLANTUSER', 'vitya@zarabotat.victorpseo.n4.voximplant.com');
 // ПОЛЬЗОВАТЕЛЬ VOXIMPLANT
 define('APPNAME', 'CASHCALL');
 

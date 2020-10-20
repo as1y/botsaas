@@ -166,10 +166,10 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" >
 
 <!--       ПАНЕЛЬ ЗВОНКА-->
-        <div class="card border-dark">
+        <div  class="card border-dark">
             <div class="card-body">
 
 
@@ -201,6 +201,23 @@
 
         </div>
         <!--       ПАНЕЛЬ ЗВОНКА-->
+
+
+        <!--        ЕСЛИ ПЕРЕЗВОН-->
+
+        <?php  if (!empty($perezvon)):?>
+        <div class="card border-dark">
+            <div class="card-header bg-danger text-white text-center">
+                <h6 class="card-title">ПЕРЕЗВОН ПО КОНТАКТУ</h6>
+            </div>
+            <b>МОЙ КОММЕНТАРИЙ:</b>
+            <i><?=$contactinfo['operatorcomment']?></i>
+
+        </div>
+        <?php endif;?>
+        <!--        ЕСЛИ ПЕРЕЗВОН-->
+
+
 
         <!--        РЕЗУЛЬТАТ ЗВОНКА-->
         <div class="card border-dark">
@@ -383,7 +400,8 @@
 
         let data = $("#resultdata").serialize();
 
-        console.log(data);
+        // alert(data);
+        // console.log(data);
 
         $.ajax({
             url: '/operator/callresult/?id='+<?=$company['id']?>,
@@ -433,7 +451,7 @@
                     $("#namecont").text(obj.namecont);
                     $("#company").text(obj.namecompany);
                     $("#comment").text(obj.comment);
-                    $("#siteurl").html('<a href="//' + obj.siteurl + '" target="_blank">' + obj.siteurl + '</a>');
+                    $("#siteurl").html('<a href="//' + obj.siteurl + '" target="_blank">' + obj.sitename + '</a>');
                     // Загрузка таблицы контакт
 
                     //Обновление телефона

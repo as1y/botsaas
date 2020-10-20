@@ -19,8 +19,16 @@
     <link rel="stylesheet" type="text/css" href="/assets_landing/type/type.css">
     <link rel="stylesheet" type="text/css" href="/assets_base/style.css">
     <link rel="stylesheet" type="text/css" href="/assets_landing/css/color/blue.css">
+
+
+
+    <?php gtmHEAD();?>
 </head>
 <body>
+<?php gtmBODY();?>
+
+
+
 <div class="content-wrapper">
 
 
@@ -86,8 +94,6 @@
 
 
 
-
-
     <footer class="dark-wrapper inverse-text text-center">
         <div class="container inner pt-80 pb-80">
             <div class="widget">
@@ -145,6 +151,12 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/61998925" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+
+
+<!-- COUPONS POP-UP ENGINE -->
+<?php \APP\core\base\Model::SaveUsr();?>
+
+
 
 
 </body>

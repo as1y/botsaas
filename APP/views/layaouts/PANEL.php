@@ -69,10 +69,8 @@
         </span>
 
         <?php if ($_SESSION['ulogin']['role'] == "O"):?>
-        <a href="https://join.skype.com/boRbvQS4VOR4" target="_blank" class="navbar-nav-link dropdown-toggle caret-0">
-            <i class="icon-skype mr-2"></i>
-            ЧАТ ОПЕРАТОРОВ
-        </a>
+
+<!--        fdsf-->
         <?php endif;?>
 
 
@@ -81,11 +79,13 @@
 
             <li class="nav-item dropdown">
                 <a href="/panel/messages/?newdialog=24" class="navbar-nav-link dropdown-toggle caret-0">
-
                     <i class="icon-comment-discussion mr-2"></i>
                     Поддержка
-
                 </a>
+
+
+
+
             </li>
 
 
@@ -111,8 +111,6 @@
                     <a href="/panel/balance/" class="dropdown-item"><i class="icon-wallet"></i> Баланс  &nbsp;<span class="badge badge-success"><b><?=\APP\models\Panel::getBal()?></b> Р.</span></a>
                     <a href="/panel/profile/" class="dropdown-item"><i class="icon-user-plus"></i> Мой профиль</a>
                     <a href="/panel/refferal/" class="dropdown-item"><i class="icon-cash"></i> Партнерскся программа</a>
-
-                    <a href="/panel/faq/" class="dropdown-item"><i class="icon-question3"></i> F.A.Q</a>
 
                     <div class="dropdown-divider"></div>
                     <a href="/panel/urlegal/" class="dropdown-item"><i class="icon-pencil"></i> Юр. Информация</a>
@@ -153,13 +151,25 @@
         <div class="header-elements d-none">
             <div class="breadcrumb justify-content-center">
 
-
-                <a href="#" class="btn btn-danger btn-sm">
-                    <i class="icon-reading mr-2"></i>
-                   ОБУЧЕНИЕ
+                &nbsp;
+                <a href="/panel/rating" class="btn btn-success btn-sm">
+                    <i class="icon-users4 mr-2"></i>
+                    РЕЙТИНГ ОПЕРАТОРОВ
                 </a>
 
+                &nbsp;
 
+                <a href="/panel/otzivi" class="btn btn-primary btn-sm">
+                    <i class="icon-file-text mr-2"></i>
+                    ОТЗЫВЫ ОПЕРАТОРОВ
+                </a>
+
+                &nbsp;
+
+                <a href="/panel/faq" class="btn btn-danger btn-sm">
+                    <i class="icon-reading mr-2"></i>
+                   ПОМОЩЬ
+                </a>
 
 
 
@@ -290,21 +300,6 @@
     </div>
 </div>
 <!-- /footer -->
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-    ym(61998925, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-    });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/61998925" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
 
 
 </body>
