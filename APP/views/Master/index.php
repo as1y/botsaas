@@ -1,13 +1,16 @@
+
 <?php
 if (empty($company)) {
     $company = [];
     ?>
 
-
-
     <div class="row">
 
         <div class="col-md-12">
+            <div class="alert alert-info alert-styled-left alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                <span class="font-weight-semibold">Что-то не получается?</span> Обратитесь в раздел <a href="/panel/faqpromo/" target="_blank" class="alert-link">Помощь</a>
+            </div>
 
             <div class="card">
                 <div class="card-header bg-dark text-white header-elements-inline">

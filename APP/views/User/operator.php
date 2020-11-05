@@ -42,7 +42,7 @@
 										<i class="icon-grid mr-2"></i>
 										Всего звонков
 									</span>
-                    <span class="badge bg-success ml-auto">0</span>
+                    <span class="badge bg-success ml-auto"><?=$userinfo['totalcall'] ?></span>
                 </a>
 
 
@@ -51,7 +51,7 @@
 										<i class="icon-grid mr-2"></i>
 										Успешных
 									</span>
-                    <span class="badge bg-success ml-auto">0</span>
+                    <span class="badge bg-success ml-auto"><?=$userinfo['totalresult'] ?></span>
                 </a>
 
 

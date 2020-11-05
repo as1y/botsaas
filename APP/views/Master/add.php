@@ -167,39 +167,39 @@
 
                     </div>
 
-                    <div class="form-group row">
-
-                        <div class="col-md-6">
-                            <label>Мин. кол-во звонков за смену:<span class="text-danger">*</span></label>
-
-                            <div class="input-group">
-											<span class="input-group-prepend">
-												<span class="input-group-text">
-                                              <i class="icon-phone"></i>
-                                                </span>
-											</span>
-                                <input type="text" name="mincall" placeholder="100" value="100" class="form-control required">
-                            </div>
-
-
-
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>Вознаграждение:<span class="text-danger">*</span></label>
-                            <div class="input-group">
-											<span class="input-group-prepend">
-												<span class="input-group-text">РУБ.</span>
-											</span>
-                                <input type="text" name="bonuscall" placeholder="500" class="form-control required">
-                            </div>
-
-                        </div>
-
-                        <span class="form-text text-muted">Для мотивации рекомендуем поставить вознаграждение за совершения минимально кол-ва звонков</span>
-
-
-                    </div>
+<!--                    <div class="form-group row">-->
+<!---->
+<!--                        <div class="col-md-6">-->
+<!--                            <label>Мин. кол-во звонков за смену:<span class="text-danger">*</span></label>-->
+<!---->
+<!--                            <div class="input-group">-->
+<!--											<span class="input-group-prepend">-->
+<!--												<span class="input-group-text">-->
+<!--                                              <i class="icon-phone"></i>-->
+<!--                                                </span>-->
+<!--											</span>-->
+<!--                                <input type="text" name="mincall" placeholder="100" value="100" class="form-control required">-->
+<!--                            </div>-->
+<!---->
+<!---->
+<!---->
+<!--                        </div>-->
+<!---->
+<!--                        <div class="col-md-6">-->
+<!--                            <label>Вознаграждение:<span class="text-danger">*</span></label>-->
+<!--                            <div class="input-group">-->
+<!--											<span class="input-group-prepend">-->
+<!--												<span class="input-group-text">РУБ.</span>-->
+<!--											</span>-->
+<!--                                <input type="text" name="bonuscall" placeholder="500" class="form-control required">-->
+<!--                            </div>-->
+<!---->
+<!--                        </div>-->
+<!---->
+<!--                        <span class="form-text text-muted">Для мотивации рекомендуем поставить вознаграждение за совершения минимально кол-ва звонков</span>-->
+<!---->
+<!---->
+<!--                    </div>-->
 
 
 

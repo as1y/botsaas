@@ -1,4 +1,3 @@
-
 <div class="card">
     <div class="card-header bg-dark text-white header-elements-inline">
         <h5 class="card-title">ЗАГРУЗИТЬ БАЗУ</h5>
@@ -11,17 +10,24 @@
     </div>
 
     <div class="card-body justify-content-center">
+        <div class="alert alert-info alert-styled-left alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+            <span class="font-weight-semibold">
+                1. Файл необходимо загружать в формате .CSV с разделителем " <b>;</b> "<br>
+                2. Пример загружаемого файла можно посмотреть <a href="/assets/examplebase.csv" target="_blank"><b>тут</b></a><br>
+                3. Если в поле "ТЕЛЕФОН" несколько номеров несколько, то будет загружен только первый номер.<br>
+                4. В базе обязательно должны быть поля "ТЕЛЕФОН" или "МОБИЛЬНЫЙ ТЕЛЕФОН". Приоритет звонка будет отдан номеру в поле "МОБИЛЬНЫЙ ТЕЛЕФОН"<br>
+        </div>
 
-        <form enctype="multipart/form-data" action="/project/base/?id=<?=$company['id']?>" method="post"  data-fouc>
+        <form enctype="multipart/form-data" action="/project/base/?id=<?=$company['id']?>" method="POST"  data-fouc>
 
         <div class="form-group row">
 
             <label class="col-form-label col-lg-2">Загрузите файл:</label>
             <div class="col-lg-6">
 
-                <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
                 <input type="file" multiple accept=".csv" name="file" class="form-control-uniform-custom" data-fouc>
-                <span class="form-text text-muted">Формат .CSV Не более 1MB</span>
+                <span class="form-text text-muted">Формат .CSV Не более 3MB</span>
 
             </div>
         </div>

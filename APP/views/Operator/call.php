@@ -144,7 +144,7 @@
                     </td>
 
                     <td style='vertical-align: middle'>
-                        <div id="company"><?=$contactinfo['namecompany']?></div>
+                        <div id="company"><?=$contactinfo['companyname']?></div>
                     </td>
                     <td style='vertical-align: middle'>
                         <div id="siteurl"> <a href="http://<?=$contactinfo['sitename']?> " target="_blank"><?=$contactinfo['sitename']?></a> </div>
@@ -449,7 +449,7 @@
                     $("#contactid").val(obj.id);
                     $("#idcontact").text('#' + obj.id);
                     $("#namecont").text(obj.namecont);
-                    $("#company").text(obj.namecompany);
+                    $("#company").text(obj.companyname);
                     $("#comment").text(obj.comment);
                     $("#siteurl").html('<a href="//' + obj.siteurl + '" target="_blank">' + obj.sitename + '</a>');
                     // Загрузка таблицы контакт

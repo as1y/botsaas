@@ -80,6 +80,16 @@
                         </li>
                     <?php endif;?>
 
+                    <?php if ($_SESSION['ulogin']['email'] == "raskrutkaweb@yandex.ru"): ?>
+                        <li class="nav-item">
+                            <a href="/panel/newrekl/" class="nav-link <?=isset($active['newrekl']) ? $active['newrekl'] : ''; ?>">
+                                <i class="icon-user-plus"></i>
+                                <span>	Рекламодатели</span>
+                            </a>
+                        </li>
+                    <?php endif;?>
+
+
 
 
                     <?php if ($_SESSION['ulogin']['email'] == "raskrutkaweb@yandex.ru"): ?>

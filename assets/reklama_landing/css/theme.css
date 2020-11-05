@@ -1,0 +1,471 @@
+
+/*
+Theme Name: saastec html5 template
+Version:1.0
+*/
+
+
+/*
+CSS LIST=====>
+
+INDEX-4 CSS
+
+
+
+
+
+
+COMMAN CSS
+
+*/
+
+/*
+====================
+	COMMAN CSS
+====================
+
+*/
+
+a, a:hover, a:focus{
+	transition: all .3s;
+}
+
+.padding-b{
+    padding-bottom: 100px;
+}
+
+
+
+.padding-t{
+    padding-top: 100px;
+}
+
+.case-study .single-study9{
+    box-shadow: 0 0 30px -5px rgba(0, 0, 0, .1);
+}
+
+.study-text {
+    padding: 30px 30px 50px;
+}
+
+.study-text h3 a:hover {
+    text-decoration: underline;
+}
+.study-text h3 a {
+    color: #001737;
+}
+
+.case-study2 .study-text h3 a:hover{
+    color: #C82C29;
+}
+
+/********************
+Testimonial area CSS
+********************/
+
+.t9-area {
+    position: relative;
+    z-index: 1;
+    padding-top: 200px;
+    margin-top: -110px;
+}
+
+.t9-area:after {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    content: '';
+    background-image: url(../image/t9-bg.png);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.single-t9-content i {
+    width: 90px;
+    height: 90px;
+    line-height: 90px;
+    background-color: #1657E2;
+    border-radius: 50%;
+    color: white;
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+.single-t9-content h3 {
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.single-t9-content p {
+    font-style: italic;
+    font-size: 20px;
+    color: #001737;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+.t9-img h4 span {
+    display: block;
+    font-size: 14px;
+    margin-top: 12px;
+    font-weight: 400;
+}
+
+.t9-img h4 {
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+.t9-content .owl-nav button {
+    position: absolute;
+    left: -100px;
+    top: 50%;
+    margin-top: -15px;
+}
+
+.t9-content .owl-nav button i {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    -webkit-box-shadow: 0 0 30px 0px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 30px 0px rgba(0, 0, 0, .1);
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.t9-content .owl-nav button.owl-next {
+    left: auto;
+    right: -100px;
+}
+
+
+
+
+
+
+
+/*price section style*/
+
+/****************
+Pricing area CSS
+****************/
+
+.pricing-area {
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-area .title-4,
+.pricing-area .title-4 h2 {
+    color: white;
+}
+
+.single-pricing-item {
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.pricing-area {
+    background-color: #4528EB;
+}
+
+.pricing-header h3 {
+    color: #F38550;
+    margin-bottom: 30px;
+}
+
+.pricing-header {
+    padding: 40px 0 30px;
+    background-color: #F6F8FA;
+    border-radius: 10px 10px 0 0;
+}
+
+.price,
+.price h2 {
+    position: relative;
+    z-index: 1;
+}
+
+.price h2 span {
+    font-size: 36px;
+    position: absolute;
+    left: 18%;
+    top: 10%;
+}
+
+.price h2 {
+    font-size: 64px;
+}
+
+.price h2 strong {
+    font-size: 15px;
+    margin-left: 7px;
+}
+
+.price h2 sup {
+    font-size: 32px;
+    position: absolute;
+    top: 20%;
+    right: 36%;
+}
+
+.pricing-content li {
+    display: block;
+    font-weight: 400;
+    margin-bottom: 17px;
+}
+
+.pricing-content {
+    padding: 40px 0;
+}
+
+.pricing-content li strong {
+    color: #001737;
+}
+
+.pricing-content li.f-o {
+    color: #ADB9C7;
+}
+
+.pricing-content li:last-child {
+    margin-bottom: 0;
+}
+
+.pricing-footer {
+    padding: 0 0 40px;
+}
+
+.border-4-btn:hover {
+    background-color: #F38550;
+    color: white;
+    border-color: #F38550;
+}
+
+.border-4-btn {
+    font-size: 14px;
+    color: #F38550;
+    border: 2px solid #F38550;
+    padding: 15px 40px;
+    border-radius: 5px;
+    display: inline-block;
+    text-transform: uppercase;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
+    transition: .3s;
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+}
+
+a.border-4-btn:after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 0%;
+    content: "";
+    background-color: #F38550;
+    z-index: -1;
+    border-radius: 5px;
+    -webkit-transition: .5s;
+    -o-transition: .5s;
+    transition: .5s;
+}
+
+a.border-4-btn:hover:after {
+    height: 100%;
+    bottom: 0;
+    top: auto;
+}
+
+.active .pricing-header {
+    background-color: #001737;
+}
+
+.active .pricing-header h3,
+.active .pricing-header .price h2 {
+    color: white;
+}
+
+.active .pricing-footer .border-4-btn {
+    color: white;
+    background-color: #F38550;
+}
+
+.active .pricing-footer .mdi {
+    display: block;
+    color: #5CBC2B;
+    font-size: 40px;
+}
+
+.active .pricing-footer p {
+    font-size: 14px;
+}
+
+.pricing-area .animation-4 span:nth-child(4) {
+    left: 20%;
+    bottom: 70%;
+}
+
+.pricing-area .animation-4 span:nth-child(6) {
+    left: 15%;
+    bottom: 5%;
+}
+
+
+
+
+
+
+
+
+
+/*
+====================
+	INDEX-4 CSS
+====================
+*/
+
+.study-text h3 a:hover {
+    color: #F38550;
+}
+
+
+
+
+
+
+
+
+/*
+====================
+	INDEX-2 CSS
+====================
+
+*/
+
+
+.pricing-area.price2 .title-4,
+.pricing-area.price2 .title-4 h2 {
+    color: white;
+}
+
+.pricing-area.price2 {
+    background-color: #4528EB;
+}
+
+.price2 .pricing-header h3 {
+    color: #C82C29;
+}
+
+.price2 .pricing-header {
+    background-color: #F6F8FA;
+}
+
+.price2 .pricing-content li strong {
+    color: #001737;
+}
+
+.price2 .pricing-content li.f-o {
+    color: #ADB9C7;
+}
+
+
+.price2 .border-4-btn:hover {
+    background-color: #C82C29;
+    color: white;
+    border-color: #C82C29;
+}
+
+.price2 .border-4-btn {
+    color: #F38550;
+    border: 2px solid #C82C29;
+}
+
+.price2 a.border-4-btn:after {
+    background-color: #C82C29;
+}
+
+.price2 .active .pricing-header {
+    background-color: #001737;
+}
+
+.price2 .active .pricing-header h3,
+.price2 .active .pricing-header .price h2 {
+    color: white;
+}
+
+.price2 .active .pricing-footer .border-4-btn {
+    color: white;
+    background-color: #C82C29;
+}
+
+
+.mainmenu-area.hp4 .mainmenu li a:after{
+    background: #F38550;
+}
+
+.hp4 .mainmenu li a:after{
+    background-color: #F38550 !important;
+}
+
+.hp4 .mainmenu li li:hover>a{
+    color: #F38550 !important
+}
+
+
+
+.header8 .mainmenu li li:hover>a{
+    color: #FFCE63 !important
+}
+.header8 .mainmenu li a:after{
+    background: #FFCE63 !important;
+}
+
+
+
+.header9 .mainmenu li li:hover>a, 
+.team9 .solial-link li a:hover{
+    color: #1657E2 !important
+}
+
+.header9 .mainmenu li a:after{
+    background: #1657E2 !important;
+}
+
+
+
+
+
+.header7 .mainmenu li li:hover>a, 
+.header6 .mainmenu li li:hover>a, 
+.team7 .solial-link li a:hover, 
+.team6 .solial-link li a:hover, 
+.blog7 .study-text h3 a:hover, 
+.blog6 .study-text h3 a:hover{
+    color: #00C1B1 !important
+}
+
+.header7 .mainmenu li a:after, 
+.header6 .mainmenu li a:after{
+    background: #00C1B1 !important;
+}
+
+
+.footer4 .footer li a:hover, 
+.footer5 .footer li a:hover{
+    color: #F38550;
+}
+
+.articles-content a:hover{
+    color: #FFCE63
+}
+
+
+
+

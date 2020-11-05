@@ -4,6 +4,8 @@ use APP\models\Operator;
 use APP\core\base\Model;
 use APP\models\Panel;
 use APP\models\Project;
+use APP\models\crest;
+
 
 class OperatorController extends AppController {
 
@@ -67,10 +69,6 @@ class OperatorController extends AppController {
         if ($_POST['optionresult'] == "result") $operator->SetResult($_POST, $company);
 
 
-        if (!empty($_GET['perezvon'])){
-
-
-        }
 
 
 
@@ -100,7 +98,7 @@ class OperatorController extends AppController {
         if (empty($contactinfo['sitename'])) $contactinfo['sitename'] = "";
         if (empty($contactinfo['comment'])) $contactinfo['comment'] = "";
         if (empty($contactinfo['namecont'])) $contactinfo['namecont'] = "";
-        if (empty($contactinfo['namecompany'])) $contactinfo['namecompany'] = "";
+        if (empty($contactinfo['companyname'])) $contactinfo['companyname'] = "";
 
         echo json_encode($contactinfo, true);
 
@@ -233,6 +231,7 @@ class OperatorController extends AppController {
         $BREADCRUMBS['HOME'] = ['Label' => $this->BreadcrumbsControllerLabel, 'Url' => $this->BreadcrumbsControllerUrl];
         $BREADCRUMBS['DATA'][] = ['Label' => "Мои проекты"];
         \APP\core\base\View::setBreadcrumbs($BREADCRUMBS);
+
 
 
         $operator = new Operator(); //Вызываем Моудль
@@ -481,6 +480,7 @@ class OperatorController extends AppController {
         \APP\core\base\View::setAssets($ASSETS);
 
 
+
         $mystat = $operator->todaystat();
 
         $result = $operator->topleaders();
@@ -506,7 +506,7 @@ class OperatorController extends AppController {
                 redir();
             }
 
-            exit("gdfg");
+            exit("");
 
         }
 
@@ -514,8 +514,9 @@ class OperatorController extends AppController {
         $Panel = new Panel();
         $chat = $Panel->loadchatmessage(1);
 
+         $user =  $Panel->usermy();
 
-        $this->set(compact('mystat', 'result', 'chat'));
+        $this->set(compact('mystat', 'result', 'chat', 'user'));
 
 
 

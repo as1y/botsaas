@@ -21,6 +21,11 @@
             <tbody>
 
             <?php
+           // show($allbalance);
+            ?>
+
+
+            <?php
             $allsum = 0;
             foreach ($balancelogout as $key=>$val):
                 $allsum = $allsum + $val['sum'];

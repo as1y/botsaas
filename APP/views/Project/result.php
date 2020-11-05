@@ -12,7 +12,7 @@
                 <table  class="table datatable-basic">
                     <thead>
                     <tr>
-                        <th><b>ДАТА</b></th>
+                        <th><b>#ID</b></th>
                         <th><b>ОПЕРАТОР</b></th>
                         <th><b>ИСХОДНЫЕ ДАННЫЕ</b></th>
                         <th><b>РЕЗУЛЬТАТ</b></th>
@@ -34,8 +34,9 @@
                         <tr>
                             <td class="text-center">
 
-                                <?=$val['datacall']?>
+                                <?=$val['id']?>
                             </td>
+
 
                             <td class="text-center">
 

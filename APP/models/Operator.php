@@ -163,13 +163,20 @@ class Operator extends \APP\core\base\Model {
             'operatorname' => self::$USER['username'],
             'user' => $komy['username'],
             'idc' => $company['id'],
-            'projectname' => $company['company']
+            'projectname' => $company['company'],
+            'RESULTMASS' => $RESULTMASS
 
         ];
 
 
-//        if ($komy['nmessages'] == 1)
-//            Mail::sendMail("newresult", "Успешный звонок! - ".CONFIG['NAME'], $USN, ['to' => [['email' =>$komy['email']]]] );
+        // Отправка лидов в BITRIX
+
+
+
+
+
+        if ($komy['nmessages'] == 1)
+            Mail::sendMail("newresult", "Успешный звонок! - ".CONFIG['NAME'], $USN, ['to' => [['email' =>$company['email']]]] );
 
 
 
@@ -254,7 +261,7 @@ class Operator extends \APP\core\base\Model {
          if (empty($bilaliviplata)){
 
              $user = R::load(CONFIG['USERTABLE'], $_SESSION['ulogin']['id']);
-             $this->addbalanceuser($user, 300, "Начисление бонуса за KPI");
+             $this->addbalanceuser($user, 200, "Начисление бонуса за KPI");
 
 
              $DATA = [

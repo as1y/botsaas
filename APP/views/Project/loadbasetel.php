@@ -10,7 +10,7 @@
 
 
 
-        <table class="table table-bordered table-responsive " >
+        <table class="table table-bordered table-responsive">
 
 
 
@@ -44,10 +44,11 @@
             for ($i = 0; $i < $stolb; $i++){
                 echo '<td> 
 	
-<select id="stolbc" title="'.$i.'" class="form-control">
+<select id="stolbc" title="'.$i.'" style="width: 200px" class="form-control">
   <option value="none" selected>НЕ ИМПОРТИРОВАТЬ</option>
   <option value="name">ИМЯ</option>
   <option value="tel">ТЕЛЕФОН</option>
+  <option value="mob">МОБ.ТЕЛ</option>  
   <option value="company">КОМПАНИЯ</option>
   <option value="site">САЙТ</option>
   <option value="comment">КОММЕНТАРИЙ</option>

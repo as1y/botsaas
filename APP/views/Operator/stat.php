@@ -1,13 +1,61 @@
 
 <div class="row">
     <div class="col-md-6">
+        
+        <div class="card">
+            <div class="card-header bg-dark text-white header-elements-inline">
+                <h5 class="card-title">ПОДДЕРЖКА ОПЕРАТОРОВ</h5>
+
+            </div>
+
+            <div class="card-body">
+                <ul class="media-list media-chat-scrollable mb-3" id="messagelist" style="max-height: 400px">
+
+                    <?php foreach ($chat as $message):?>
+                        <?=rendermessage($message);?>
+                    <?php endforeach;?>
+
+
+
+
+                </ul>
+
+
+                <div class="row">
+                    <div class="col-md-8">  <input type="text" autocomplete="off" class="form-control mb-3" autofocus placeholder="Введите сообщение" id="messageinput"></div>
+                    <div class="col-md-2">
+
+                        <button onclick="sendmessage()" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-auto">
+                            <b><i class="icon-paperplane"></i></b> ОТПРАВИТЬ
+                        </button>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="col-md-6">
+
+
 
         <div class="card">
             <div class="card-header bg-dark text-white header-elements-inline">
                 <h5 class="card-title">СЕГОДНЯ: МОЯ СТАТИСТИКА</h5>
             </div>
             <div class="card-body">
-
+                <a href="<?=generateprofilelink($user)?>"  target="_blank" class="btn btn-success btn-sm">
+                    <i class="icon-user mr-2"></i>
+                    МОЙ ПРОФИЛЬ
+                </a>
                 <div class="table-responsive">
                     <table class="table ">
                         <tbody>
@@ -39,14 +87,14 @@
                             <td class="wmin-md-350">
 
                                 <?php if ( $mystat['calls']< 100): ?>
-                                    <button type="submit"  disabled class="btn btn-success">Получить 300 рублей</button>
+                                    <button type="submit"  disabled class="btn btn-success">Получить 200 рублей</button>
                                 <?php endif;?>
 
                                 <?php if ( $mystat['calls'] > 100): ?>
-                                <form method="post" action="/operator/stat">
-                                    <input type="hidden" name="mycalls" value="<?=$mystat['calls']?>">
-                                    <button type="submit"  class="btn btn-success">Получить 300 рублей</button>
-                                </form>
+                                    <form method="post" action="/operator/stat">
+                                        <input type="hidden" name="mycalls" value="<?=$mystat['calls']?>">
+                                        <button type="submit"  class="btn btn-success">Получить 200 рублей</button>
+                                    </form>
 
                                 <?php endif;?>
 
@@ -63,7 +111,7 @@
                         </tbody>
                     </table>
 
-                    Чтобы получить бонус 300 рублей необходимо совершить более 100 звонков!
+                    Чтобы получить бонус 200 рублей необходимо совершить более 100 звонков!
                 </div>
 
 
@@ -157,53 +205,6 @@
         </div>
 
 
-    </div>
-    <div class="col-md-6">
-
-
-
-        <div class="card">
-            <div class="card-header bg-dark text-white header-elements-inline">
-                <h5 class="card-title">ПОДДЕРЖКА ОПЕРАТОРОВ</h5>
-
-            </div>
-
-            <div class="card-body">
-                <ul class="media-list media-chat-scrollable mb-3" id="messagelist" style="max-height: 400px">
-
-                    <?php foreach ($chat as $message):?>
-                        <?=rendermessage($message);?>
-                    <?php endforeach;?>
-
-
-
-
-                </ul>
-
-
-                <div class="row">
-                    <div class="col-md-8">  <input type="text" autocomplete="off" class="form-control mb-3" autofocus placeholder="Введите сообщение" id="messageinput"></div>
-                    <div class="col-md-2">
-
-                        <button onclick="sendmessage()" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-auto">
-                            <b><i class="icon-paperplane"></i></b> ОТПРАВИТЬ
-                        </button>
-
-                    </div>
-                </div>
-
-
-
-
-
-
-            </div>
-
-
-
-        </div>
-
-
 
 
     </div>
@@ -214,7 +215,7 @@
 
     var conn = new WebSocket('wss://chat.cashcall.ru/wss2/:8080');
     conn.onopen = function(e) {
-        console.log("Connection established!");
+        // console.log("Connection established!");
     };
 
     conn.onmessage = function(e) {
@@ -223,7 +224,7 @@
 
     conn.onerror = function(e) {
 
-        $("#messagelist").append("<h1 style='color : red'>Ошибка подключения. Перезагрузите страницу</h1>");
+        $("#messagelist").append("<h1 style='color : red'>Ошибка подключения. Попробуйте зайти в чат позднее</h1>");
 
     };
 

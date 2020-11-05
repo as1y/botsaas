@@ -38,7 +38,6 @@ function generateprofilelink($user = ""){
 function raskladkazapisi($DATA) {
 
 
-
     if (empty($DATA)) return "Запись отсутсвует<br />";
 
     $DATA = json_decode($DATA, true);
@@ -86,6 +85,8 @@ function raskladkazapisi($DATA) {
 
 
 }
+
+
 
 
 

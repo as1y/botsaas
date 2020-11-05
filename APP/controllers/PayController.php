@@ -10,7 +10,7 @@ use Dompdf\Dompdf;
 
 class PayController extends AppController {
 	public $layaout = 'PANEL';
-    public $mininvoice = 1000;
+    public $mininvoice = 10000;
 
 
 
@@ -54,12 +54,55 @@ class PayController extends AppController {
 
 
 
+        if ($_POST && $_POST['paymethod'] == "Unitpay"){
+            $invoiceid = $Panel->addnewBD("invoice", $invoice);
+
+            // Параметры для подписи
+            $account = $invoiceid;
+            $desc = "Пополнение баланса в сервисе CASHCALL.RU";
+            $secret_key = "c13019bbc23cd68ee7f10ac60bde34b1";
+            $sum = $_POST['summa'];
+            $currency = "RUB";
+
+            $signature = getFormSignatureUnit($account, $currency, $desc, $sum, $secret_key);
+
+
+            $locate = "ru";
+            $backUrl = "https://cashcall.ru/panel/balance/";
+
+
+            $url = "https://unitpay.money/pay/254981-acd93/card";
+
+            $url .= "?sum=".$sum;
+            $url .= "&account=".$account;
+            $url .= "&currency=RUB";
+            $url .= "&locate=".$locate;
+            $url .= "&signature=".$signature;
+            $url .= "&hideMenu=true";
+
+            $DATA = [
+                'desc' => $desc,
+                'backUrl' => $backUrl,
+
+            ];
+
+
+            $url = $url."&".http_build_query($DATA);
+
+             redir($url);
+
+
+
+
+
+        }
 
 
 
         if ($_POST && $_POST['paymethod'] == "Payeer"){
             $invoiceid = $Panel->addnewBD("invoice", $invoice);
            $form = $Panel->generatePayeerform($_POST, $invoiceid);
+
         }
 
 
@@ -116,6 +159,28 @@ class PayController extends AppController {
             'keywords' => 'Пополнение баланса',
         ];
         \APP\core\base\View::setMeta($META);
+
+
+
+
+        if (!empty($_GET['system']) && $_GET['system'] == "Unitpay"){
+
+
+            if (!in_array($_SERVER['REMOTE_ADDR'], array('31.186.100.49', '178.132.203.105', '52.29.152.23', '52.19.56.234'))) exit("");
+
+
+            if ($_GET['params']['account'] != "test"){
+                $Panel->invoicesuccess($_GET['params']['account']);
+            }
+
+            echo '{"result": {"message": "Запрос успешно обработан"}}';
+
+            exit();
+
+
+
+        }
+
 
 
 

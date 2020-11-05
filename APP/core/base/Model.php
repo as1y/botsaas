@@ -207,6 +207,7 @@ abstract class Model
         $contact['today'] = '0';
         foreach ($mass as  $val) {
             $contact['all']++;
+            if ($val['status'] != 0 ) $contact['ready']++;
             if ($val['status'] == 0 ) $contact['free']++;
             if ($val['status'] == 2 ) $contact['perezvon']++;
             if ($val['status'] == 3 ) $contact['otkaz']++;

@@ -4,7 +4,7 @@ use APP\models\Bazaupload;
 use APP\models\Panel;
 use APP\models\Project;
 use APP\core\Cache;
-use APP\models\Settings;
+use APP\models\crest;
 
 class ProjectController extends AppController {
 
@@ -144,6 +144,48 @@ class ProjectController extends AppController {
 
 
         if (!empty($_GET['action']) && $_GET['action'] == "accept"){
+
+            $result = $contactresult[$_GET['idresult']];
+            $RESULTMASS = json_decode($result['resultmass'], true);
+            $zapis = raskladkazapisi($allzapis[$_GET['idresult']]['data']);
+
+            $comment = $RESULTMASS[4]['VAL'];
+            $comment .= "Запись разговора\n";
+            $comment .= $zapis;
+
+            $resmass = [
+                'name' =>  $RESULTMASS[0]['VAL'],
+                'email' =>  $RESULTMASS[1]['VAL'],
+                'phone' => $RESULTMASS[3]['VAL'],
+                'comment' => $comment,
+
+            ];
+
+            // Если наша кампания
+            if ($contactresult[$_GET['idresult']]['company_id'] == 16){
+//                show($resmass);
+                $resmass['phone'] = (!empty($resmass['phone'])) ? array(array('VALUE' => $resmass['phone'], 'VALUE_TYPE' => 'WORK')) : array();
+                $resmass['email'] = (!empty($resmass['email'])) ? array(array('VALUE' => $resmass['email'], 'VALUE_TYPE' => 'HOME')) : array();
+
+
+                $result = CRest::call(
+                    'crm.lead.add',
+                    [
+                        'fields' =>[
+                            'TITLE' => 'Готовый лид от оператора с сервиса CASHCALL.RU',
+                            'NAME' => $resmass['name'],//Name[string]
+                            'PHONE' => $resmass['phone'],//Phone[crm_multifield]
+                            'EMAIL' => $resmass['email'],//E-mail[crm_multifield]
+                            'COMMENTS' => $resmass['comment'],//Comment[string]
+                        ]
+                    ]);
+//                show($result);
+            }
+
+
+
+            
+
             $result =  $project->acceptresult($contactresult[$_GET['idresult']]);
             if ($result == 1){
                 $_SESSION['success'] = "Результат успешно одобрен";
@@ -594,7 +636,7 @@ class ProjectController extends AppController {
 
         if ($_POST){
 
-//            show($_FILES['file']);
+            show($_FILES['file']);
             $validation = $project->filevalidation($_FILES['file'], ['ext' => [".csv"], 'type' => "application/octet-stream"]);
 
 

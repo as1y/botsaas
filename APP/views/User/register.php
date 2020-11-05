@@ -1,3 +1,10 @@
+
+<?php
+
+if (!empty($_GET) && $_GET['role'] == "R") $_SESSION['form_data']['role'] = "R";
+
+?>
+
 <!-- Registration form -->
 <form action="/user/register" method="post" class="login-form" style="width: 30rem">
     <div class="card mb-0">
@@ -19,7 +26,7 @@
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
                         <input type="radio" class="form-check-input" onchange="changerole()" name="role" value="R" <?=( !empty($_SESSION['form_data']['role']) && $_SESSION['form_data']['role'] == "R" ) ? 'checked' : '';?>>
-                        <i class="icon-coin-dollar"></i> &nbsp; Я РЕКЛАМОДАТЕЛЬ
+                        <i class="icon-coin-dollar"></i> &nbsp; Я ЗАКАЗЧИК
                     </label>
                 </div>
             </div>

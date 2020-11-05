@@ -213,7 +213,8 @@ class User extends \APP\core\base\Model
 
         // Отправка конверсии в GA
         $Panel = new Panel();
-        $Panel->sendPostBackGA();
+        if ($role == "O") $Panel->sendPostBackGA();
+        if ($role == "R") $Panel->sendPostBackGArekl();
         unset($_SESSION['form_data']);
         // Отправка конверсии в GA
 

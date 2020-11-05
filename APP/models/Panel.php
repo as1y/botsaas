@@ -148,6 +148,36 @@ class Panel extends \APP\core\base\Model {
 
     }
 
+    public function sendPostBackGArekl(){
+
+        $cid = gaUserId();
+
+        $PARAMS = [
+            'v' => 1,
+            't' => 'pageview',
+            'tid' => UA,
+            'cid' => $cid,
+            'dp' => 'registrationrekl',
+        ];
+
+
+        $url = "https://www.google-analytics.com/collect";
+        $url = $url."?".http_build_query($PARAMS);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $PARAMS);
+        curl_exec($ch);
+        curl_close($ch);
+
+
+
+    }
 
 
 
@@ -204,16 +234,28 @@ class Panel extends \APP\core\base\Model {
     }
 
 
+    public function getnewrekl(){
+
+        $operators = R::findALL("users", "WHERE `role` = ? AND `talk` != 1 ", ["R"]);
+        return $operators;
+    }
+
 
 
     public function getoperators($limit = 100){
-        $operators = R::findALL("users", "WHERE role = ? AND aboutme != '' ORDER BY `datareg` DESC  LIMIT ".$limit." ", ["O"]);
+        $operators = R::findALL("users", "WHERE role = ? AND aboutme != '' ORDER BY `totalcall` DESC  LIMIT ".$limit." ", ["O"]);
         return $operators;
     }
 
     public function getcustomoperators($mass = []){
         $operators = R::loadAll("users", $mass);
         return $operators;
+    }
+
+    public function usermy(){
+        return self::$USER;
+
+
     }
 
 
@@ -277,6 +319,18 @@ class Panel extends \APP\core\base\Model {
 
 
         return true;
+    }
+
+
+    public function allBalance(){
+        $userbalance = R::findAll("users", "WHERE role = ?", ["O"] );
+
+        $allbal = 0;
+        foreach ($userbalance as $val){
+            $allbal = $allbal + $val['bal'];
+        }
+
+        return $allbal;
     }
 
 
@@ -573,7 +627,6 @@ class Panel extends \APP\core\base\Model {
         );
 
 
-
         $arHash[] = $m_key;
         $sign = strtoupper(hash('sha256', implode(':', $arHash)));
 
@@ -588,9 +641,15 @@ class Panel extends \APP\core\base\Model {
         $form['input'][] = ['type' => 'hidden', 'name' => 'm_desc', 'value' => $m_desc];
         $form['input'][] = ['type' => 'hidden', 'name' => 'm_sign', 'value' => $sign];
 //        $form['input'][] = ['type' => 'submit', 'm_process' => 'm_sign', 'value' => 'send'];
-
-
 //        $form['input'][] = ['type' => 'hidden', 'name' => 'm_params', 'value' => $m_params];
+
+//        $form['input'][] = ['type' => 'hidden', 'name' => 'form[ps]', 'value' => '2609'];
+//        $form['input'][] = ['type' => 'hidden', 'name' => 'form[curr[2609]]', 'value' => 'RUB'];
+
+
+
+
+
 
         return $form;
 

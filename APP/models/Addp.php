@@ -47,7 +47,6 @@ class Addp extends \APP\core\base\Model {
                 ['nameproduct'],
                 ['type'],
                 ['priceresult'],
-                ['mincall'],
                 ['timecall'],
 
             ],

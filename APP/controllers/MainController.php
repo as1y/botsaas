@@ -7,7 +7,7 @@ use APP\models\Panel;
 
 class MainController extends AppController {
 
-	public function indexAction(){
+	public function operatorAction(){
 
         $Panel = new Panel();
 
@@ -27,23 +27,47 @@ class MainController extends AppController {
 	}
 
 
-	public function operatorsAction(){
+    public function indexAction(){
 
-        $Panel =  new Panel();
+        $Panel = new Panel();
+
+        $this->layaout = "REKLAMA";
+
 
         $META = [
-            'title' => 'Инструкция операор',
-            'description' => 'Инструкция операор',
-            'keywords' => 'Инструкция операор',
+            'title' => 'Биржа операторов на телефоне. Страница заказчика '.APPNAME,
+            'description' => 'Биржа операторов на телефоне'.APPNAME,
+            'keywords' => 'Биржа операторов на телефоне'.APPNAME,
         ];
 
+
+
         \APP\core\base\View::setMeta($META);
+        $operators = $Panel->getoperators(6);
+        $this->set(compact('operators'));
+
+
+    }
+
+
+    public function marketingAction(){
+
+        $Panel = new Panel();
+
+        $this->layaout = "REKLAMA";
+
+
+        $META = [
+            'title' => 'Биржа операторов на телефоне. Страница заказчика '.APPNAME,
+            'description' => 'Биржа операторов на телефоне'.APPNAME,
+            'keywords' => 'Биржа операторов на телефоне'.APPNAME,
+        ];
 
 
 
-
-
-
+        \APP\core\base\View::setMeta($META);
+        $operators = $Panel->getoperators(6);
+        $this->set(compact('operators'));
 
 
     }

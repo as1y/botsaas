@@ -60,28 +60,39 @@ class Bazaupload extends \APP\core\base\Model {
         // СПАРСИЛИ CSV В МАССИВ
         // ИЩЕМ ЗНАЧЕНИЯ СТОЛБЦОВ В МАССИВАХ
         $telkey = array_search('tel', $SEL);
+        $mobkey = array_search('mob', $SEL);
         $namekey = array_search('name', $SEL);
         $companykey = array_search('company', $SEL);
         $sitekey = array_search('site', $SEL);
         $commentkey = array_search('comment', $SEL);
-        if (  $telkey === FALSE ) return "Определите колонку ТЕЛЕФОН";
+
+        if (  $telkey === FALSE &&  $mobkey === FALSE) return "Определите колонку ТЕЛЕФОН или МОБИЛЬНЫЙ ТЕЛЕФОН";
 
 
         // ИЩЕМ ЗНАЧЕНИЯ СТОЛБЦОВ В МАССИВАХ
         // РАСКЛАДЫВАЕМ МАССИВ НА СТРОКИ
-        $coun = 0;
+
         foreach ($list as $stroka) {
-            $stroka[$telkey] = teleph($stroka[$telkey]);
-            $dlinna = strlen($stroka[$telkey]);
-            $tel = $stroka[$telkey];
-            if ($stroka[$telkey] and $dlinna <= 11 ) {
+
+            $tel = teleph($stroka[$telkey]);
+            $mob = teleph($stroka[$mobkey]);
+
+            if (!empty($tel) && !empty($mob)) $tel = $mob;
+            if (empty($tel) && !empty($mob)) $tel = $stroka[$mobkey];
+
+//            $tel = teleph($tel);
+            $dlinna = strlen($tel);
+
+
+            if ( !empty($tel) and $dlinna <= 11 ) {
                 // ОБРАБАТЫВАЕТ ТОЛЬКО ЕСТЬ ТЕЛЕФОН
-                $coun++;
+
                 $name = $stroka[$namekey];
                 $company = $stroka[$companykey];
                 $site = $stroka[$sitekey];
                 $comment = $stroka[$commentkey];
-                $tell[] = $tel;
+
+
                 if ( !$namekey and $namekey === FALSE ) $name = "-";
                 if ( !$companykey and $companykey === FALSE ) $company = "-";
                 if ( !$sitekey and $sitekey === FALSE ) $site = "#";
@@ -95,6 +106,7 @@ class Bazaupload extends \APP\core\base\Model {
                     'tel' => $tel,
                     'name' => $name,
                     'comment' => $comment,
+                    'companyname' => $company,
                     'sitename' => $site,
 
                 ];
@@ -103,6 +115,8 @@ class Bazaupload extends \APP\core\base\Model {
 
                 // ОБРАБАТЫВАЕТ ТОЛЬКО ЕСТЬ ТЕЛЕФОН
             }
+
+
         }
 
         return true;

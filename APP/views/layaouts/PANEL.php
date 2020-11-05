@@ -151,27 +151,34 @@
         <div class="header-elements d-none">
             <div class="breadcrumb justify-content-center">
 
-                &nbsp;
-                <a href="/panel/rating" class="btn btn-success btn-sm">
-                    <i class="icon-users4 mr-2"></i>
-                    РЕЙТИНГ ОПЕРАТОРОВ
-                </a>
+                &nbsp;<?php if($_SESSION['ulogin']['role'] == "O"):?>
+                    <a href="/panel/rating" class="btn btn-success btn-sm">
+                        <i class="icon-users4 mr-2"></i>
+                        РЕЙТИНГ ОПЕРАТОРОВ
+                    </a>
 
-                &nbsp;
+                    &nbsp;
 
-                <a href="/panel/otzivi" class="btn btn-primary btn-sm">
-                    <i class="icon-file-text mr-2"></i>
-                    ОТЗЫВЫ ОПЕРАТОРОВ
-                </a>
+                    <a href="/panel/otzivi" class="btn btn-primary btn-sm">
+                        <i class="icon-file-text mr-2"></i>
+                        ОТЗЫВЫ ОПЕРАТОРОВ
+                    </a>
 
-                &nbsp;
+                    &nbsp;
 
-                <a href="/panel/faq" class="btn btn-danger btn-sm">
-                    <i class="icon-reading mr-2"></i>
-                   ПОМОЩЬ
-                </a>
+                    <a href="/panel/faq" class="btn btn-danger btn-sm">
+                        <i class="icon-reading mr-2"></i>
+                        ПОМОЩЬ
+                    </a>
+                <?php endif;?>
 
+                &nbsp;<?php if($_SESSION['ulogin']['role'] == "R"):?>
+                    <a href="/panel/faqpromo" class="btn btn-danger btn-sm">
+                        <i class="icon-reading mr-2"></i>
+                        ПОМОЩЬ
+                    </a>
 
+                <?php endif;?>
 
 
 

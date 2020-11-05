@@ -153,7 +153,6 @@ class PanelController extends AppController {
         \APP\core\base\View::setBreadcrumbs($BREADCRUMBS);
 
 
-
         $ASSETS[] = ["js" => "/global_assets/js/plugins/tables/datatables/datatables.min.js"];
         $ASSETS[] = ["js" => "/assets/js/datatables_basic.js"];
         \APP\core\base\View::setAssets($ASSETS);
@@ -177,9 +176,14 @@ class PanelController extends AppController {
 
             if ($payeer->isAuth()) $arPs = $payeer->getPaySystems();
 
+//            echo "fdgdfgdfg";
+//            show($arPs);
 
             // Получение списка платежных систем
             $PS = getPS($arPs, $payoutinfo['method'])['id'];
+
+//            show($PS);
+
             $sum = $payoutinfo['sum'];
 
 
@@ -231,14 +235,14 @@ class PanelController extends AppController {
         }
 
 
-
+        $allbalance = $Panel->allBalance();
 
 
         $balancelogout = $Panel->balancelogout();
 
 
 
-        $this->set(compact('balancelogout'));
+        $this->set(compact('balancelogout', 'allbalance'));
 
     }
 
@@ -364,7 +368,60 @@ class PanelController extends AppController {
 
     }
 
+    public function newreklAction()
+    {
 
+        //Информация о компаниях клиента
+
+        $Panel =  new Panel();
+
+
+        $META = [
+            'title' => 'Создание ссылки для',
+            'description' => 'Создание ссылки',
+            'keywords' => 'Создание ссылки',
+        ];
+
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/extensions/jquery_ui/interactions.min.js"];
+
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/wizards/steps.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/selects/select2.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/styling/uniform.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/inputs/inputmask.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/forms/validation/validate.min.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/extensions/cookie.js"];
+
+        $ASSETS[] = ["js" => "/assets/js/form_wizard.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/demo_pages/form_select2.js"];
+
+
+
+        if ($_GET){
+
+            $Panel->ApproveTalk($_GET['id']);
+            $_SESSION['success'] = "";
+
+
+        }
+
+
+        \APP\core\base\View::setAssets($ASSETS);
+
+        \APP\core\base\View::setMeta($META);
+
+
+
+        $rekl = $Panel->getnewrekl();
+
+
+        $this->set(compact( 'link', 'rekl' ));
+
+
+
+
+    }
 
 
     public function cashoutAction(){
@@ -1081,7 +1138,26 @@ class PanelController extends AppController {
 
     }
 
+    public function faqpromoAction(){
+        $Panel =  new Panel();
 
+
+        $META = [
+            'title' => 'Помощь',
+            'description' => 'FAQ',
+            'keywords' => 'FAQ',
+        ];
+
+        if ($_SESSION['ulogin']['role'] == "R") $BREADCRUMBS['HOME'] = ['Label' => "Кабинет рекламодателя", 'Url' => "/master"];
+        if ($_SESSION['ulogin']['role'] == "O") $BREADCRUMBS['HOME'] = ['Label' => "Кабинет  оператора", 'Url' => "/operator"];
+        $BREADCRUMBS['DATA'][] = ['Label' => "FAQ"];
+
+        \APP\core\base\View::setMeta($META);
+        \APP\core\base\View::setBreadcrumbs($BREADCRUMBS);
+
+
+
+    }
 
 
     public function operatorAction(){

@@ -1,0 +1,385 @@
+/*************************
+CSS INDEX
+* INNER PAGES CSS
+
+---CONTACT PAGE CSS
+---SINGLE PROJECT PAGE CSS
+
+---COMMAN CSS
+
+
+*************************/
+
+
+
+/*
+=========================
+CONTACT PAGE CSS
+=========================
+*/
+
+body{
+	overflow-x: hidden;
+}
+.contact-area{
+	background: #F9FAFC;
+}
+.single-contat-details {
+    background: #fff;
+    padding: 20px 30px;
+    border: 1px solid #E5E9F2;
+    position: relative;
+    z-index: 2;
+    padding-left: 80px;
+    transition: all .3s;
+}
+
+.contact-details-icon {
+    position: absolute;
+    content: "";
+    height: 40px;
+    width: 40px;
+    left: 25px;
+    top: 50%;
+    margin-top: -20px;
+    font-size: 30px;
+    line-height: 40px;
+}
+
+.single-contat-details:hover {
+    border-color: #1657E2;
+    transition: all .3s;
+}
+
+.contact-details-icon i {
+    color: #1657E2;
+}
+
+.single-contat-details h6 {
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.contact-map {
+    background: #fff;
+    z-index: 9999;
+}
+
+.contact-map #map{
+	height: 600px
+}
+
+@media screen and (max-width: 991px){
+	.single-contat-details h6 {
+	    font-size: 16px;
+	    margin-top: 5px;
+	}
+	.contact-details .row > div {
+	    margin-bottom: 25px;
+	}
+
+	.contact-details .row > div:last-child {
+	    margin-bottom: 0;
+	}
+}
+
+
+/*
+=========================
+SINGLE PROJECT PAGE CSS
+=========================
+*/
+
+
+
+.card-table td {
+    border: navajowhite;
+}
+
+.card-table {
+    text-align: center;
+    background: #fff;
+    padding: 50px 35px;
+}
+
+.card-table table {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.card-table table tr td:first-child {
+    color: #001737;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.single-project-features-list {
+    margin-top: 40px;
+}
+
+.single-project-features-list li {
+    position: relative;
+    z-index: 2;
+    padding-left: 30px;
+}
+
+.single-project-features-list li i {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    margin-top: -15px;
+    font-size: 14px;
+    color: #38D16A;
+}
+@media screen and (max-width: 991px){
+	.card-table {
+	    padding: 20px;
+	    margin-top: 40px;
+	}
+}
+
+
+
+/*
+=========================
+ABOUT PAGE CSS
+=========================
+*/
+.video-wrap {
+    background: url(../image/video-7.png);
+    background-position: center;
+    background-size: cover;
+    padding: 200px 0;
+    border: 15px solid #fff;
+    position: relative;
+    z-index: 2;
+}
+
+
+.video-wrap a {
+    color: #001737;
+    height: 185px;
+    width: 185px;
+    display: inline-block;
+    text-align: center;
+    line-height: 185px;
+    background: #fff;
+    border-radius: 50%;
+    font-size: 24px;
+}
+.video-wrap:before {
+    position: absolute;
+    content: "";
+    height: 200px;
+    width: 200px;
+    background: url(../image/Repeat-grid.png);
+    background-repeat: no-repeat;
+    left: -5%;
+    bottom: 50%;
+    z-index: -1;
+}
+.video-wrap:after {
+    position: absolute;
+    content: "";
+    height: 200px;
+    width: 200px;
+    background: url(../image/Repeat-grid.png);
+    background-repeat: no-repeat;
+    right: -15%;
+    bottom: 30%;
+    z-index: -1;
+}
+.abput-cta-area {
+    background: #081567;
+    padding: 220px 0 120px 0;
+    position: relative;
+    z-index: 2;
+    margin-top: -100px;
+}
+
+.abput-cta-area:after {
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 100%;
+    background: url(../image/map.png);
+    top: -15%;
+    left: 15%;
+    z-index: -1;
+}
+
+.abput-cta-area h5 {
+    color: #fff;
+    margin-bottom: 18px;
+}
+
+.abput-cta-area h3 {
+    color: #fff;
+    font-size: 28px;
+}
+
+.about-video-area {
+    position: relative;
+    z-index: 3;
+}
+
+
+.about-single-team {
+    background: #000;
+    background-position: center !important;
+    background-size: cover !important;
+    height: 400px !important;
+    position: relative;
+    z-index: 2;
+    background-repeat: no-repeat !important;
+}
+
+.about-team-bg1{
+    background: url(../image/t-m-1.jpg);
+}
+
+.about-team-bg2{
+    background: url(../image/t-m-2.jpg);
+}
+
+.about-team-bg3{
+    background: url(../image/t-m-3.jpg);
+}
+
+span.about-team-side-banner {
+    position: absolute;
+    background: #fff;
+    transform: rotate(-90deg);
+    left: -19%;
+    bottom: 23%;
+    padding: 5px 15px;
+    transition: all .3s;
+}
+
+.about-team-details-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 40px;
+    transform: scale(1.5);
+    opacity: 0;
+    transition: all .3s;
+}
+.about-single-team:hover .about-team-details-wrap{
+    transform: scale(1);
+    opacity: 1;
+    transition: all .3s;
+}
+.about-single-team:hover span.about-team-side-banner{
+    transform: rotate(0deg);
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s;
+}
+
+.about-single-team:hove{
+    cursor: pointer
+}
+
+.about-single-team:after {
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 100%;
+    background: #001737;
+    z-index: -1;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s;
+}
+.about-single-team:hover:after{
+    opacity: .8;
+    visibility: visible;
+    transition: all .3s; 
+}
+.about-team-social li a {
+    color: #fff;
+    font-size: 20px;
+    margin: 0 5px;
+}
+.contact-card {
+    background: #fff;
+    padding: 20px;
+}
+.about-team-social li a:hover{
+    color: #F5F6F9;
+}
+.about-team-details {
+    display: inline-block;
+    
+}
+.about-team-details:last-child{
+    float: right
+}
+.about-team-details h4 a{
+    margin-bottom: 0;
+    font-size: 20px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.about-team-details p {
+    font-size: 16px;
+    color: #fff;
+}
+
+
+@media screen and (max-width: 991px){
+    .about-left-img {
+    margin-bottom: 30px;
+}
+.sm-space-20{
+    height: 20px;
+}
+.about-team .row > div {
+    margin-bottom: 40px;
+}
+
+.about-team .row > div:last-child {
+    margin-bottom: 0;
+}
+}
+
+
+
+/*
+=========================
+COMMAN CSS
+=========================
+*/
+
+
+.space-60{
+	height: 60px;
+}
+
+
+
+.space-100{
+	height: 100px;
+}
+
+
+
+.space-30{
+	height: 30px;
+}
+
+
+.inner-bg{
+	background: #F9FAFC;
+}
+
+.section-padding{
+    padding:100px 0;
+}

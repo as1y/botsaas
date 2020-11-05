@@ -63,6 +63,14 @@ function dumpf($PARAM){
 }
 
 
+
+function getFormSignatureUnit($account, $currency, $desc, $sum, $secretKey) {
+    $hashStr = $account.'{up}'.$currency.'{up}'.$desc.'{up}'.$sum.'{up}'.$secretKey;
+    return hash('sha256', $hashStr);
+}
+
+
+
 function hurl($url){
 	$url = str_replace("http://", "", $url); // Убираем http
 	$url = str_replace("https://", "", $url); // Убираем https
@@ -117,30 +125,36 @@ function getPS($arPs , $method){
         if ($method == "qiwi" && $val['name'] == "QIWI"){
             $PS['id'] = $key;
             $PS['add'] = 0;
+            return $PS;
         }
         if ($method == "yamoney" && $val['name'] == "Яндекс.Деньги") {
             $PS['id'] = $key;
             $PS['add'] = 0;
+            return $PS;
         }
 
         if ($method == "cardvisa" && $val['name'] == "VISA") {
             $PS['id'] = $key;
             $PS['add'] = 45;
+            return $PS;
         }
 
-        if ($method == "cardmaster" && $val['name'] == "MasterCard") {
+        if ($method == "cardmaster" && $val['name'] == "MasterCard Int.") {
             $PS['id'] = $key;
             $PS['add'] = 45;
+            return $PS;
 
         }
         if ($method == "cardmir" && $val['name'] == "МИР") {
             $PS['id'] = $key;
             $PS['add'] = 45;
+            return $PS;
         }
 
         if ($method == "cardukr" && $val['name'] == "Украинские банки") {
             $PS['id'] = $key;
             $PS['add'] = 45;
+            return $PS;
         }
     }
 
@@ -281,6 +295,12 @@ function teleph($tel){
 	$tel = str_replace("-", "", $tel); // Убираем )
 	$tel = str_replace(".", "", $tel); // Убираем .
 	$tel = str_replace(" ", "", $tel); // Убираем пробелы
+
+    // Убираем телефоны после запятой
+    $tel = preg_replace("/\,.+/", "", $tel);
+    // Убираем телефоны после запятой
+
+
 	$tel = trim($tel);
 	if ($tel['0'] == '8'){
 		$tel = substr($tel, 1);
