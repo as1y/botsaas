@@ -399,6 +399,17 @@ class Project extends \APP\core\base\Model {
         // ОТКЛОНЕННЫЕ
         $reject = R::findAll('result', 'WHERE company_id =? AND status =2 ', [$idc]);
 
+        // Звонки оператора
+        $calls = R::findAll('contact', 'WHERE company_id =? AND status !=0 AND status !=1', [$idc]);
+
+        //
+        $CALLSU = [];
+        foreach ($calls as $key=>$val){
+            if (empty($CALLSU[$val->users['id']])) $CALLSU[$val->users['id']] = 0;
+            $CALLSU[$val->users['id']]++;
+            $USERMASS[$val->users['id']] = $val->users;
+        }
+        //
 
 //        show($result);
         $MASSACEPT = [];
@@ -416,6 +427,7 @@ class Project extends \APP\core\base\Model {
         }
 
         $result['USERMASS'] = $USERMASS;
+        $result['CALLSU'] = $CALLSU;
         $result['MASSACEPT'] = $MASSACEPT;
         $result['MASSREJECT'] = $MASSREJECT;
         return $result;

@@ -110,8 +110,12 @@
                 <table  class="table datatable-basic">
                     <thead>
                     <tr>
+                        <th class="text-center"><b>ЗВОНКОВ</b></th>
+
                         <th class="text-center"><b>ОДОБРЕННЫХ</b></th>
+                        <th class="text-center"><b>% ОДОБРЕННЫХ</b></th>
                         <th class="text-center"><b>ОТКЛОНЕННЫХ</b></th>
+                        <th class="text-center"><b>% ОТКЛОНЕННЫХ</b></th>
                         <th class="text-center"><b>ОПЕРАТОР</b></th>
 
 
@@ -129,8 +133,33 @@
                         <tr>
 
                             <td class="text-center">
+                                <?=$statoperator['CALLSU'][$val['id']]?>
+                            </td>
+
+                            <td class="text-center">
+                                <?php
+                                if (empty($statoperator['MASSACEPT'][$val['id']])) $statoperator['MASSACEPT'][$val['id']] = 0;
+                                $convert = ($statoperator['MASSACEPT'][$val['id']]/$statoperator['CALLSU'][$val['id']])*100;
+                                    $convert = round($convert, 2);
+                                ?>
+                                <?=$convert?> %
+                            </td>
+
+
+                            <td class="text-center">
                                 <?=$statoperator['MASSACEPT'][$val['id']]?>
                             </td>
+
+                            <td class="text-center">
+                                <?php
+                                if (empty($statoperator['MASSREJECT'][$val['id']])) $statoperator['MASSREJECT'][$val['id']] = 0;
+                                $convertreject = ($statoperator['MASSREJECT'][$val['id']]/$statoperator['CALLSU'][$val['id']])*100;
+                                $convertreject = round($convertreject, 2);
+                                ?>
+                                <?=$convertreject?> %
+                            </td>
+
+
 
 
                             <td class="text-center">

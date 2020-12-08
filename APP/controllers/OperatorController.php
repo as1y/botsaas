@@ -536,8 +536,6 @@ class OperatorController extends AppController {
             }
 
 
-
-
             $resultbonus = $operator->addbonuce();
 
             if ($resultbonus == true){

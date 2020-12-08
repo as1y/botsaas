@@ -221,8 +221,6 @@
                         <p class="mb-3">Для корректной работы проекта необходимо минимум <b>20000</b> рублей</p>
                         <a href="/panel/balance/" class="btn bg-success"><i class="icon-coins ml-2"></i> ПОПОЛНИТЬ</a>
 
-
-
                     </div>
 
 
