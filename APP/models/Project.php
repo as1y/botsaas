@@ -49,14 +49,24 @@ class Project extends \APP\core\base\Model {
 
     public function acceptresult($contactresult){
 
-
-
         $contactresult->status = 8;
         R::store($contactresult);
 
-
         $userinfo = $contactresult->users;
         $companyinfo = $contactresult->company;
+
+
+        // ЗАЧИСЛЕНИЕ БАЛАНСА МОДЕРАТОРУ
+            // Сумма на начисление
+            $cenazaresult = $companyinfo['priceresult'];
+             $cenazaresult = round(($cenazaresult/100*13), 2);
+            $moderator =  R::Load("users", "183");
+
+        $comment = 'Модерация готовых лидов в проекте '.$companyinfo['company'];
+        $this->addbalanceuser($moderator, $cenazaresult, $comment);
+
+        // ЗАЧИСЛЕНИЕ БАЛАНСА МОДЕРАТОРУ
+
 
         // Добавление в таблицу результат
         $result = [
@@ -109,9 +119,31 @@ class Project extends \APP\core\base\Model {
     }
 
 
-    public function rejectresult($contactresult){
+    public function rejectresult($contactresult, $comment){
+
+
         $contactresult->status = 7;
+        $contactresult->dorabotkacomment = $comment;
         R::store($contactresult);
+
+        $companyinfo = $contactresult->company;
+
+        // Добавление в таблицу результат
+        $result = [
+            'users_id' => $contactresult['users_id'],
+            'company_id' => $companyinfo['id'],
+            'contact_id' => $contactresult['id'],
+            'dataresult' => $contactresult['resultmass'],
+            'contactinfo' => json_encode($contactresult, true),
+            'status' => 2,
+            'date' => date("Y-m-d"),
+            'type' => $companyinfo['type'],
+        ];
+        $this->addnewBD("result", $result);
+        // Добавление в таблицу результат
+
+
+
         return true;
     }
 
@@ -359,12 +391,46 @@ class Project extends \APP\core\base\Model {
     }
 
 
+    public function statoperator($idc) {
+
+        // ОДОБРЕННЫЕ
+        $accept = R::findAll('result', 'WHERE company_id =? AND status =1 ', [$idc]);
+
+        // ОТКЛОНЕННЫЕ
+        $reject = R::findAll('result', 'WHERE company_id =? AND status =2 ', [$idc]);
+
+
+//        show($result);
+        $MASSACEPT = [];
+        foreach ($accept as $val){
+            if (empty($MASSACEPT[$val->users['id']])) $MASSACEPT[$val->users['id']] = 0;
+            $MASSACEPT[$val->users['id']]++;
+            $USERMASS[$val->users['id']] = $val->users;
+        }
+
+        $MASSREJECT = [];
+        foreach ($reject as $val){
+            if (empty($MASSREJECT[$val->users['id']])) $MASSREJECT[$val->users['id']] = 0;
+            $MASSREJECT[$val->users['id']]++;
+            $USERMASS[$val->users['id']] = $val->users;
+        }
+
+        $result['USERMASS'] = $USERMASS;
+        $result['MASSACEPT'] = $MASSACEPT;
+        $result['MASSREJECT'] = $MASSREJECT;
+        return $result;
+
+    }
+
+
+
 
 	public function companyresult($idc) {
-		$company = R::load('company', $idc);
-		$result = R::dispense( 'result' ); //Таблица результат
-		$company->ownResultList[] = $result;
-		return $company;
+
+        $result = R::findAll('result', 'WHERE company_id =? AND `status` = 1', [$idc]);
+		return $result;
+
+
 	}
 	public function records($idc) {
 		$records = R::find('zapisi_new','WHERE company_id = ?' , [$idc]);

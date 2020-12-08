@@ -192,8 +192,18 @@ abstract class Model
 
     public static function contact($id, $type = "company") {
 
+
 	    if ($type == "company") $mass = R::findAll("contact", "WHERE company_id = ?", [$id]);
         if ($type == "user") $mass = R::findAll("contact", "WHERE users_id = ?", [$id]);
+
+
+
+        // Удаляем перезвоны при контакты у не активных проектов
+        foreach ($mass as $key=>$val){
+            if ($val['status'] == 2 && $val['company']['status'] == 2) unset($mass[$key]);
+        }
+        // Удаляем перезвоны при контакты у не активных проектов
+
 
 
         $contact['all'] = '0';
@@ -204,7 +214,10 @@ abstract class Model
         $contact['bezdostupa'] = '0';
         $contact['moderate'] = '0';
         $contact['dorabotka'] = '0';
+        $contact['reject'] = '0';
         $contact['today'] = '0';
+
+
         foreach ($mass as  $val) {
             $contact['all']++;
             if ($val['status'] != 0 ) $contact['ready']++;
@@ -213,6 +226,7 @@ abstract class Model
             if ($val['status'] == 3 ) $contact['otkaz']++;
             if ($val['status'] == 4 ) $contact['bezdostupa']++;
             if ($val['status'] == 5 ) $contact['moderate']++;
+            if ($val['status'] == 7 ) $contact['reject']++;
             if ($val['status'] == 6 ) $contact['dorabotka']++;
             if ($val['datacall'] == date("Y-m-d") ) $contact['today']++;
         }
@@ -232,11 +246,15 @@ abstract class Model
         $result['dorabotka'] = '0';
         $result['today'] = '0';
 
+        $result['reject'] = '0';
+
+
         foreach ($mass as $val) {
             if ($val['status'] == 1 ) $result['all']++;
             if ($val['status'] == 0 ) $result['moderation']++;
             if ($val['date'] == date("Y-m-d") and $val['status'] == 1  ) $result['today']++;
             if ($val['status'] == 3 ) $result['dorabotka']++;
+
 
         }
         return $result;

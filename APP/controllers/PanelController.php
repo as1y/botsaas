@@ -176,13 +176,14 @@ class PanelController extends AppController {
 
             if ($payeer->isAuth()) $arPs = $payeer->getPaySystems();
 
-//            echo "fdgdfgdfg";
-//            show($arPs);
 
-            // Получение списка платежных систем
+//
+//            show($arPs);
+//            // Получение списка платежных систем
+//            show(getPS($arPs, $payoutinfo['method']));
+
             $PS = getPS($arPs, $payoutinfo['method'])['id'];
 
-//            show($PS);
 
             $sum = $payoutinfo['sum'];
 
@@ -245,6 +246,44 @@ class PanelController extends AppController {
         $this->set(compact('balancelogout', 'allbalance'));
 
     }
+
+    public function workAction(){
+        $Panel =  new Panel();
+
+        if ($_SESSION['ulogin']['woof'] != 1) exit();
+
+        $META = [
+            'title' => 'Сколько заработали операторы',
+            'description' => 'Сколько заработали операторы',
+            'keywords' => 'Сколько заработали операторы',
+        ];
+        \APP\core\base\View::setMeta($META);
+
+        if ($_SESSION['ulogin']['role'] == "R") $BREADCRUMBS['HOME'] = ['Label' => "Кабинет рекламодателя", 'Url' => "/master"];
+        if ($_SESSION['ulogin']['role'] == "O") $BREADCRUMBS['HOME'] = ['Label' => "Кабинет  оператора", 'Url' => "/operator"];
+        $BREADCRUMBS['DATA'][] = ['Label' => "Вывод баланса пользователями"];
+        \APP\core\base\View::setBreadcrumbs($BREADCRUMBS);
+
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/tables/datatables/datatables.min.js"];
+        $ASSETS[] = ["js" => "/assets/js/datatables_basic.js"];
+        \APP\core\base\View::setAssets($ASSETS);
+
+
+
+
+
+        $allbalance = $Panel->allBalance();
+
+
+        $balancelogout = $Panel->balancelogout();
+
+
+
+        $this->set(compact('balancelogout', 'allbalance'));
+
+    }
+
 
 
 
@@ -503,25 +542,20 @@ class PanelController extends AppController {
                 redir("/panel/cashout/");
             }
 
-
-
             if (empty($_POST['sposob'])){
                 $_SESSION['errors'] = "Укажите способ вывода";
                 redir("/panel/cashout/");
             }
 
-            if ($Panel::$USER->bal < 300){
-                $_SESSION['errors'] = "Минимальный заказ выплаты 300 рублей";
+            if ($Panel::$USER->bal < 100){
+                $_SESSION['errors'] = "Минимальный заказ выплаты 100 рублей";
                 redir("/panel/cashout/");
             }
-
-
 
             if ($Panel::$USER->bal < $_POST['summa']){
                 $_SESSION['errors'] = "Недостаточно средств на балансе";
                 redir("/panel/cashout/");
             }
-
 
             $Panel->createviplata($_POST);
 

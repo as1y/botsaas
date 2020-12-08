@@ -252,31 +252,24 @@ class PayController extends AppController {
 
         $prods = [
             [
-                'name' => 'Пополнение баланаса в сервисе',
+                'name' => 'Размещение рекламных материалов на площадке kodypromo.ru',
                 'count' => 1,
                 'unit' => 'шт',
                 'price' => $invoice['summa'],
-                'nds' => 20
+                'nds' => 0
             ],
         ];
 
 
         $urlegal = json_decode($Panel::$USER['urlegal'], true);
 
-
+        $payurinfo = json_decode($Panel::$USER['payurinfo'], true);
 
         $myrequis = [
 
-          'company' => 'ООО «Бизнес солюшнс»',
-          'ogrn' => '1197154001615',
-          'inn' => '7106085021',
-          'kpp' => '710601001',
-          'rs' => '40702810502920003198',
-          'ks' => '30101810200000000593',
-          'bic' => '044525593',
-          'namebank' => 'ООО БАНК',
-          'adress' => '300012, Тульская обл., г. Тула, ул. Ф. Энгельса, д. 62, офис 603',
-          'director' => 'Черненко С. С.',
+          'company' => 'ИП Балацкая Дарья Викторовна',
+          'ogrn' => '319774600142574',
+          'inn' => '771505082314',
 
         ];
 
@@ -425,42 +418,43 @@ class PayController extends AppController {
 			<tr>
 				<td colspan="2" style="border-bottom: none;">Банк получателя</td>
 				<td>БИК</td>
-				<td style="border-bottom: none;">'.$myrequis['bic'].'</td>
+				<td style="border-bottom: none;">'.$payurinfo['bic'].'</td>
 			</tr>
 			<tr>
-				<td colspan="2" style="border-top: none; font-size: 10px;">'.$myrequis['namebank'].'</td>
-				<td>Сч. №</td>
-				<td style="border-top: none;">'.$myrequis['rs'].'</td>
+				<td colspan="2" style="border-top: none; font-size: 10px;">'.$payurinfo['bank'].'</td>
+				<td>К/С. №</td>
+				<td style="border-top: none;">'.$payurinfo['kor'].'</td>
 			</tr>
 			<tr>
-				<td width="25%">ИНН '.$myrequis['inn'].'</td>
-				<td width="30%">КПП '.$myrequis['kpp'].'</td>
+				<td width="25%">ИНН '.$payurinfo['inn'].'</td>
+				<td width="30%">КПП '.$payurinfo['kpp'].'</td>
 				<td width="10%" rowspan="3">Сч. №</td>
-				<td width="35%" rowspan="3">'.$myrequis['rs'].'</td>
+				<td width="35%" rowspan="3">'.$payurinfo['rs'].'</td>
 			</tr>
 			<tr>
 				<td colspan="2" style="border-bottom: none;">Получатель</td>
 			</tr>
 			<tr>
-				<td colspan="2" style="border-top: none; font-size: 10px;">'.$myrequis['company'].'</td>
+				<td colspan="2" style="border-top: none; font-size: 10px;">'.$urlegal['company'].'</td>
 			</tr>
 		</tbody>
 	</table>
  
-	<h1>Счет на оплату № '.$invoice['id'].' от '.$invoice['date'].' г.</h1>
+	<h1>Счет на оплату № '.$invoice['id'].'1133 от '.$invoice['date'].' г.</h1>
  
 	<table class="contract">
 		<tbody>
 			<tr>
 				<td width="15%">Поставщик:</td>
 				<th width="85%">
-					'.$myrequis['company'].', ИНН '.$myrequis['inn'].', КПП '.$myrequis['kpp'].','.$myrequis['adress'].'
+					'.$urlegal['company'].', ИНН '.$payurinfo['inn'].', Адрес '.$urlegal['uradres'].'
 				</th>
 			</tr>
 			<tr>
 				<td>Покупатель:</td>
 				<th>
-					'.$urlegal['urlico'].',		'.$urlegal['uradres'].'
+					'.$myrequis['company'].', ИНН '.$myrequis['inn'].'
+			
 				</th>
 			</tr>
 		</tbody>
@@ -529,11 +523,11 @@ class PayController extends AppController {
 			<tbody>
 				<tr>
 					<th width="30%">Руководитель</th>
-					<td width="70%">'.$myrequis['director'].'</td>
+					<td width="70%">'.$payurinfo['fio'].'</td>
 				</tr>
 				<tr>
 					<th>Бухгалтер</th>
-					<td>'.$myrequis['director'].'</td>
+					<td>'.$payurinfo['fio'].'</td>
 				</tr>
 			</tbody>
 		</table>

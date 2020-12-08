@@ -60,9 +60,15 @@
                     <table class="table ">
                         <tbody>
                         <tr>
-                            <td class="wmin-md-100"><b>ЗВОНКОВ:</b></td>
+                            <td class="wmin-md-100"><b>ВСЕГО НАБОРОВ:</b></td>
                             <td class="wmin-md-350">
-                                <a href="/operator/calls/"><b><?=$mystat['calls']?></b></a>
+                                <a href="/operator/calls/"><b><?=$mystat['callscount']?></b></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="wmin-md-100"><b>БОЛЬШЕ 10 СЕКУНД:</b></td>
+                            <td class="wmin-md-350">
+                                <a href="/operator/calls/"><b><?=$mystat['callsminute']?></b></a>
                             </td>
                         </tr>
 
@@ -86,16 +92,15 @@
                             <td class="wmin-md-100"><b>БОНУС ЗА 100 звонков:</b></td>
                             <td class="wmin-md-350">
 
-                                <?php if ( $mystat['calls']< 100): ?>
+                                <?php if ( $mystat['callsminute']< 15): ?>
                                     <button type="submit"  disabled class="btn btn-success">Получить 200 рублей</button>
                                 <?php endif;?>
 
-                                <?php if ( $mystat['calls'] > 100): ?>
+                                <?php if ( $mystat['callsminute'] > 15): ?>
                                     <form method="post" action="/operator/stat">
-                                        <input type="hidden" name="mycalls" value="<?=$mystat['calls']?>">
+                                        <input type="hidden" name="callsminute" value="<?=$mystat['callsminute']?>">
                                         <button type="submit"  class="btn btn-success">Получить 200 рублей</button>
                                     </form>
-
                                 <?php endif;?>
 
 

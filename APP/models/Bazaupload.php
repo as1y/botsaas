@@ -74,17 +74,18 @@ class Bazaupload extends \APP\core\base\Model {
 
         foreach ($list as $stroka) {
 
-            $tel = teleph($stroka[$telkey]);
-            $mob = teleph($stroka[$mobkey]);
+            $tel = $stroka[$telkey];
+            $mob = $stroka[$mobkey];
 
             if (!empty($tel) && !empty($mob)) $tel = $mob;
             if (empty($tel) && !empty($mob)) $tel = $stroka[$mobkey];
 
-//            $tel = teleph($tel);
+            if (empty($tel) && empty($mob)) continue;
+
+            $tel = teleph($tel);
             $dlinna = strlen($tel);
 
-
-            if ( !empty($tel) and $dlinna <= 11 ) {
+            if ( !empty($tel) and $dlinna <= 11 and $dlinna > 5 ) {
                 // ОБРАБАТЫВАЕТ ТОЛЬКО ЕСТЬ ТЕЛЕФОН
 
                 $name = $stroka[$namekey];

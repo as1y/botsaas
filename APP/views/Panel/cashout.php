@@ -10,7 +10,8 @@
 
             <div class="col-md-6">
                 <form action="/panel/cashout/?action=viplata" method="post">
-                К выводу доступно <b><?=\APP\core\base\Model::getBal()?></b> рублей <br>
+                К выводу доступно <b><?=\APP\core\base\Model::getBal()?></b> рублей<br>
+                    <span class="bg-info">Выплаты производятся в понедельник. Срок вывода может занимать до 72х часов.</span>
                 <hr>
 
                 <div class="form-group">
@@ -109,10 +110,6 @@
 
 
         </div>
-
-
-
-
 
     </div>
 

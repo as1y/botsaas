@@ -122,15 +122,6 @@
                                     <input type="text" name="fio" value="<?=$payurinfo['fio']?>" class="form-control required" placeholder="Ф.И.О. контактного лица:">
                                 </div>
 
-                                <div class="form-group">
-                                    <label>НДС: <span class="text-danger">*</span> </label>
-                                    <select name="nds" data-placeholder="Выберете направление"  value="<?=$payurinfo['nds']?>" class="form-control form-control-select2 required" data-fouc>
-                                        <option></option>
-                                        <option selected value="nds">С НДС 20%</option>
-                                        <option value=" ">БЕЗ НДС</option>
-                                    </select>
-                                </div>
-
 
 
 

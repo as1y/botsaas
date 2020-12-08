@@ -47,7 +47,6 @@
             ?>
 
 
-
             <!-- Main navigation -->
             <div class="card-body p-0">
                 <ul class="nav nav-sidebar" data-nav-type="accordion">
@@ -99,8 +98,8 @@
                     <li class="nav-item">
                         <a href="/operator/calls/" class="nav-link <?=isset($active['calls']) ? $active['calls'] : ''; ?>">
                             <i class="icon-phone2"></i>
-                            <span>	Звонки </span>
-                            <span class="badge badge-pill bg-secondary ml-auto"><?=$contact['all']?></span>
+                            <span>	Звонки сегодня </span>
+<!--                            <span class="badge badge-pill bg-secondary ml-auto">--><?//=$contact['today']?><!--</span>-->
                         </a>
                     </li>
 
@@ -130,6 +129,16 @@
 
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="/operator/reject/" class="nav-link <?=isset($active['reject']) ? $active['reject'] : ''; ?>">
+                            <i class="icon-stop"></i>
+                            <span>	Отклоненные </span>
+                            <span class="badge badge-pill bg-danger ml-auto"><?=$contact['reject']?></span>
+                        </a>
+                    </li>
+
+
 
                     <li class="nav-item">
                         <a href="/operator/success/" class="nav-link <?=isset($active['success']) ? $active['success'] : ''; ?>">

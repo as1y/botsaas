@@ -339,6 +339,13 @@ class Panel extends \APP\core\base\Model {
         return $balancelog;
     }
 
+    public function balanceplus(){
+        $balancelog = R::findAll("balancelog", "WHERE type = `debet`" );
+        return $balancelog;
+    }
+
+
+
     public function payoutinfo($id){
         $balancelog = R::findOne("balancelog", "WHERE `id` =? ", [$id] );
 
@@ -890,7 +897,6 @@ class Panel extends \APP\core\base\Model {
                 ['kor'],
                 ['bank'],
                 ['fio'],
-                ['nds'],
             ],
 
         ];
@@ -903,7 +909,6 @@ class Panel extends \APP\core\base\Model {
             'kor' => '<b>Кор. счет</b>',
             'bank' => '<b>Банк</b>',
             'fio' => '<b>ФИО контактного лица</b>',
-            'nds' => '<b>НДС</b>',
 
 
         ];

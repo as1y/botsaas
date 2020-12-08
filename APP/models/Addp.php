@@ -11,6 +11,7 @@ class Addp extends \APP\core\base\Model {
         $uniq = [
             'client_id' => $_SESSION['ulogin']['id'],
             'status' => "2",
+            'priceoperator' => "150",
             'logo' => BASELOGO,
             'datastart' => date("Y-m-d H:i:s"),
             'daylimit' => "5",
@@ -19,7 +20,7 @@ class Addp extends \APP\core\base\Model {
 
         $DATA = array_merge($uniq, $DATA);
 
-        show($DATA);
+//        show($DATA);
 
         $tbl = R::dispense("company");
         //ФОРМИРУЕМ МАССИВ ДАННЫХ ДЛЯ РЕГИСТРАЦИИ

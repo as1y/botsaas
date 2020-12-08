@@ -41,7 +41,7 @@ class OperatorController extends AppController {
 
         // Обработка ошибок
 
-        if (empty($_POST['optionresult']) || $_POST['optionresult'] == "") message("Обязательно выберете результат разговора");
+        if (empty($_POST['optionresult']) || $_POST['optionresult'] == "") message("Обязатеыефльно выберете результат разговора");
 
         if ($_POST['zvonok'] == 0) message("Вы не совершили звонок");
 
@@ -275,6 +275,9 @@ class OperatorController extends AppController {
 
         $ASSETS[] = ["js" => "/global_assets/js/plugins/tables/datatables/datatables.min.js"];
         $ASSETS[] = ["js" => "/assets/js/datatables_basic.js"];
+        $ASSETS[] = ["js" => "/global_assets/js/demo_pages/components_popups.js"];
+
+
         \APP\core\base\View::setAssets($ASSETS);
 
         $contactperezvon = $operator->getcontactuser(2);
@@ -353,6 +356,43 @@ class OperatorController extends AppController {
 
     }
 
+    public function rejectAction()
+    {
+
+        $operator = new Operator();
+        //Информация о компаниях клиента
+
+        $META = [
+            'title' => 'Отказ',
+            'description' => 'Отказ',
+            'keywords' => 'Отказ',
+        ];
+        \APP\core\base\View::setMeta($META);
+
+
+        $BREADCRUMBS['HOME'] = ['Label' => $this->BreadcrumbsControllerLabel, 'Url' => $this->BreadcrumbsControllerUrl];
+        $BREADCRUMBS['DATA'][] = ['Label' => "Отказ"];
+        \APP\core\base\View::setBreadcrumbs($BREADCRUMBS);
+
+        $ASSETS[] = ["js" => "/global_assets/js/plugins/tables/datatables/datatables.min.js"];
+        $ASSETS[] = ["js" => "/assets/js/datatables_basic.js"];
+        \APP\core\base\View::setAssets($ASSETS);
+
+//        $contactperezvon = $operator->getcontactuser(2);
+
+        $allzapis = $operator->allzapis($_SESSION['ulogin']['id'], "user");
+
+        $contactreject= $operator->getcontactuser(7);
+
+
+        $this->set(compact('contactreject', 'allzapis'));
+
+
+    }
+
+
+
+
     public function successAction()
     {
 
@@ -377,10 +417,12 @@ class OperatorController extends AppController {
 
 //        $contactperezvon = $operator->getcontactuser(2);
 
+      //  $allzapis = $operator->allzapis($_SESSION['ulogin']['id'], "user");
+
         $resultuser = $operator->getresultuser(1);
 
 
-        $this->set(compact('resultuser'));
+        $this->set(compact('resultuser', 'allzapis'));
 
 
     }
@@ -483,11 +525,12 @@ class OperatorController extends AppController {
 
         $mystat = $operator->todaystat();
 
+
         $result = $operator->topleaders();
 
         if ($_POST){
 
-            if ($_POST['mycalls'] != $mystat['calls']){
+            if ($_POST['callsminute'] != $mystat['callsminute']){
                 $_SESSION['errors'] = "Системная ошибка";
                 redir();
             }

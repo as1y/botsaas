@@ -6,6 +6,8 @@ use APP\models\Project;
 use APP\core\Cache;
 use APP\models\crest;
 
+
+
 class ProjectController extends AppController {
 
 
@@ -121,14 +123,20 @@ class ProjectController extends AppController {
 
 		$companyresult = $project->companyresult($idc); //СВЯЗЬ С КОМПАНИЕЙ
 
+
+        $statoperator = $project->statoperator($idc);
+
         $contactresult = $project->contactresult($idc, 5);
 
         $allzapis = $project->allzapis($idc);
 
 
-        // Отправка лида на доработку
-        if ($_POST){
 
+
+
+
+        // Отправка лида на доработку
+        if ($_POST && empty($_GET['action'])){
 
             $result =  $project->dorebotkaresult($contactresult[$_POST['idresult']], $_POST);
             if ($result == 1){
@@ -141,29 +149,27 @@ class ProjectController extends AppController {
         // Отправка лида на доработку
 
 
-
-
         if (!empty($_GET['action']) && $_GET['action'] == "accept"){
 
             $result = $contactresult[$_GET['idresult']];
             $RESULTMASS = json_decode($result['resultmass'], true);
             $zapis = raskladkazapisi($allzapis[$_GET['idresult']]['data']);
 
-            $comment = $RESULTMASS[4]['VAL'];
-            $comment .= "Запись разговора\n";
-            $comment .= $zapis;
-
-            $resmass = [
-                'name' =>  $RESULTMASS[0]['VAL'],
-                'email' =>  $RESULTMASS[1]['VAL'],
-                'phone' => $RESULTMASS[3]['VAL'],
-                'comment' => $comment,
-
-            ];
 
             // Если наша кампания
             if ($contactresult[$_GET['idresult']]['company_id'] == 16){
-//                show($resmass);
+
+                $comment = $RESULTMASS[4]['VAL'];
+                $comment .= "Запись разговора\n";
+                $comment .= $zapis;
+
+                $resmass = [
+                    'name' =>  $RESULTMASS[0]['VAL'],
+                    'phone' => $RESULTMASS[3]['VAL'],
+                    'comment' => $comment,
+
+                ];
+
                 $resmass['phone'] = (!empty($resmass['phone'])) ? array(array('VALUE' => $resmass['phone'], 'VALUE_TYPE' => 'WORK')) : array();
                 $resmass['email'] = (!empty($resmass['email'])) ? array(array('VALUE' => $resmass['email'], 'VALUE_TYPE' => 'HOME')) : array();
 
@@ -183,11 +189,9 @@ class ProjectController extends AppController {
             }
 
 
-
-            
-
             $result =  $project->acceptresult($contactresult[$_GET['idresult']]);
             if ($result == 1){
+
                 $_SESSION['success'] = "Результат успешно одобрен";
                 redir("/project/result/?id=".$idc);
             }else{
@@ -195,9 +199,17 @@ class ProjectController extends AppController {
             }
         }
 
-
         if (!empty($_GET['action']) && $_GET['action'] == "reject"){
-            $result =  $project->rejectresult($contactresult[$_GET['idresult']]);
+
+
+            if (empty($_POST['comment'])){
+                $_SESSION['errors'] = "Укажите причину отказа";
+                redir("/project/result/?id=".$idc);
+                return true;
+            }
+
+
+            $result =  $project->rejectresult($contactresult[$_POST['idresultreject']], $_POST['comment']);
             if ($result == 1){
                 redir("/project/result/?id=".$idc);
             }else{
@@ -206,8 +218,7 @@ class ProjectController extends AppController {
         }
 
 
-
-		$this->set(compact('companyresult', 'contactresult','zapisi' , 'allzapis' ));
+		$this->set(compact('companyresult', 'contactresult','zapisi' , 'allzapis', 'statoperator' ));
 
 
 
@@ -474,17 +485,11 @@ class ProjectController extends AppController {
 
             $bazaupload = new Bazaupload();
 
-
             //  $validate =  $bazaupload->validate($_POST);
            $result =  $bazaupload->bazaupl($_POST);
 
-
             if ($result != 1)  message($result);
-
            if ($result === true) go("project/base/?id=".$_POST['idc']);
-
-
-
 
         }
 

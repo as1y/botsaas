@@ -13,19 +13,22 @@
                 <th><b>ИСХОДНЫЕ ДАННЫЕ</b></th>
                 <th><b>РЕЗУЛЬТАТ</b></th>
                 <th><b>ЗАПИСИ</b></th>
-                <th><b>ОПЛАТА</b></th>
+                <th><b>ПРИЧИНА ОТКАЗА</b></th>
 
             </tr>
             </thead>
             <tbody>
 
             <?php
-            foreach ($contactmoderate as $key=>$val):
+
+            foreach ($contactreject as $key=>$val):
+
+
                 $userinfo = $val->users;
                 $company = $val->company;
                 $idcontact = $val->contact_id;
-                ?>
 
+                ?>
                 <tr>
                     <td class="text-center">
 
@@ -57,20 +60,14 @@
                         <?= raskladkazapisi($datazapis)?>
 
                     </td>
-                    <td >
 
-                        <h3><?=$company['priceresult']?> </h3>
-
-
-
+                    <td>
+                        <?=$val['dorabotkacomment']?>
                     </td>
 
 
                 </tr>
-
             <?php endforeach;?>
-
-
 
 
 

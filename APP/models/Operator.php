@@ -11,10 +11,31 @@ class Operator extends \APP\core\base\Model {
 
         if (!empty($status)){
             $mass = R::findAll("contact", "WHERE users_id = ? AND status =?", [$_SESSION['ulogin']['id'], $status]);
+
+
+            // Удаляем при контакты у не активных проектов
+            if ($status == 2){
+                foreach ($mass as $key=>$val){
+                    if ($val['company']['status'] == 2) unset($mass[$key]);
+                }
+            }
+            // Удаляем при контакты у не активных проектов
+
+
+
+
             return $mass;
         }
 
+
+
         $mass = R::findAll("contact", "WHERE users_id = ?", [$_SESSION['ulogin']['id']]);
+
+
+
+
+
+
         return $mass;
 
 
@@ -305,7 +326,7 @@ class Operator extends \APP\core\base\Model {
     public function mycalls(){
 
         // ЗВОНКИ СО СТАТУСОМ
-        $mycalls = R::findAll('contact', 'WHERE `users_id` =? AND `status` != 1  ', [$_SESSION['ulogin']['id']]);
+        $mycalls = R::findAll('contact', 'WHERE `users_id` =? AND `status` != 1 LIMIT 300  ', [$_SESSION['ulogin']['id']]);
 
 
         return $mycalls;
@@ -316,6 +337,27 @@ class Operator extends \APP\core\base\Model {
     public function todaystat(){
 
         $datedoday = date("Y-m-d");
+
+        // ЗВОНКИ БОЛЕЕ 1 МИНУТЫ
+        $calls = R::findAll('contact', 'WHERE datacall =? AND `users_id` =? AND `status` != 4 AND `status` !=1  ', [$datedoday, $_SESSION['ulogin']['id']]);
+
+        $records = R::findAll("records");
+
+        // Обработка массива
+        foreach ($records as $key=>$val){
+            $records[$val['contact_id']] = $val;
+            unset($records[$key]);
+        }
+        // Обработка массива
+
+        $dlinna = [];
+        foreach ($calls as $val){
+            $data = json_decode($records[$val['id']]['data'], true);
+            if ($data[0]['duration'] > 10) $dlinna[$val['id']] =  $data[0]['duration'];
+        }
+
+        $calltoday['callsminute'] = count($dlinna);
+        $calltoday['callscount'] = count($calls);
 
         // ЗВОНКИ СО СТАТУСОМ
         $calltoday['calls'] = R::count('contact', 'WHERE datacall =? AND `users_id` =? AND `status` != 4 AND `status` !=1  ', [$datedoday, $_SESSION['ulogin']['id']]);

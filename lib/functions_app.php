@@ -584,10 +584,7 @@ function renderform ($FORMRESULT, $idc){
 function paystatus ($status){
 
     if  ($status == 0) return "<span class='badge badge-warning'>В ПРОЦЕССЕ</span>";
-
     if  ($status == 1) return "<span class='badge badge-success'>ИСПОЛНЕН</span>";
-
-
 
 }
 

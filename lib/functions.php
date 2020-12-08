@@ -139,7 +139,7 @@ function getPS($arPs , $method){
             return $PS;
         }
 
-        if ($method == "cardmaster" && $val['name'] == "MasterCard Int.") {
+        if ($method == "cardmaster" && $val['name'] == "MasterCard") {
             $PS['id'] = $key;
             $PS['add'] = 45;
             return $PS;
@@ -151,7 +151,7 @@ function getPS($arPs , $method){
             return $PS;
         }
 
-        if ($method == "cardukr" && $val['name'] == "Украинские банки") {
+        if ($method == "cardukr" && $val['name'] == "Банки Украины") {
             $PS['id'] = $key;
             $PS['add'] = 45;
             return $PS;

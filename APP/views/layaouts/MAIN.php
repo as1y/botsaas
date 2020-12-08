@@ -8,6 +8,9 @@
 
     <?php \APP\core\base\View::getMeta()?>
 
+
+
+
     <link rel="shortcut icon" href="/favicon.ico">
 
     <meta name="yandex-verification" content="9e94f6602d4730a4" />

@@ -6,7 +6,7 @@
 
 
     <?php \APP\core\base\View::getMeta()?>
-
+    <meta name="verify-admitad" content="5da60811e5" />
     <!-- All CSS -->
     <link rel="stylesheet" href="/assets/reklama_landing/css/animate.css">
     <link rel="stylesheet" href="/assets/reklama_landing/css/bootstrap.min.css">
