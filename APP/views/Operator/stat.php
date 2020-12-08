@@ -92,11 +92,11 @@
                             <td class="wmin-md-100"><b>БОНУС ЗА 100 звонков:</b></td>
                             <td class="wmin-md-350">
 
-                                <?php if ( $mystat['callsminute']< 15): ?>
+                                <?php if ( $mystat['callsminute']< 15 || $mystat['result'] == 0 ): ?>
                                     <button type="submit"  disabled class="btn btn-success">Получить 200 рублей</button>
                                 <?php endif;?>
 
-                                <?php if ( $mystat['callsminute'] > 15): ?>
+                                <?php if ( $mystat['callsminute'] > 15 && $mystat['result'] > 0): ?>
                                     <form method="post" action="/operator/stat">
                                         <input type="hidden" name="callsminute" value="<?=$mystat['callsminute']?>">
                                         <button type="submit"  class="btn btn-success">Получить 200 рублей</button>
@@ -116,7 +116,9 @@
                         </tbody>
                     </table>
 
-                    Чтобы получить бонус 200 рублей необходимо совершить более 100 звонков!
+                    Для получения ежедневного бонуса <b>200</b> рублей: <br>
+                    <b>1.</b> Совершите минимум 100 звонков длительностью более 15 секунд;<br>
+                    <b>2.</b> Получите одобрения минимум 1 лида от рекламодателя; <br>
                 </div>
 
 
