@@ -59,7 +59,7 @@
                     </td>
                     <td >
 
-                        <h3><?=$company['priceresult']?> </h3>
+                        <h3><?=$company['priceoperator']?> </h3>
 
 
 

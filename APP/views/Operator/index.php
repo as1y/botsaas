@@ -52,7 +52,7 @@
 
                                 <tr>
                                     <td>Оплата</td>
-                                    <td> <b> <?=$val['priceresult']?> руб.</b></td>
+                                    <td> <b> <?=$val['priceoperator']?> руб.</b></td>
                                 </tr>
 
                             </table>

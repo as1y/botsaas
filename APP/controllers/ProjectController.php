@@ -5,7 +5,7 @@ use APP\models\Panel;
 use APP\models\Project;
 use APP\core\Cache;
 use APP\models\crest;
-
+use APP\models\Settings;
 
 
 class ProjectController extends AppController {
@@ -447,8 +447,6 @@ class ProjectController extends AppController {
 
 
         if ($_POST){
-
-
 
 
             $settings = new Settings();

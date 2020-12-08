@@ -58,7 +58,7 @@ class Project extends \APP\core\base\Model {
 
         // ЗАЧИСЛЕНИЕ БАЛАНСА МОДЕРАТОРУ
             // Сумма на начисление
-            $cenazaresult = $companyinfo['priceresult'];
+            $cenazaresult = $companyinfo['priceoperator'];
              $cenazaresult = round(($cenazaresult/100*13), 2);
             $moderator =  R::Load("users", "183");
 
@@ -91,7 +91,7 @@ class Project extends \APP\core\base\Model {
 
         // Зачислить пользователю
         $comment = 'Заработок в проекте '.$companyinfo['company'];
-        $this->addbalanceuser($userinfo, $companyinfo['priceresult'], $comment);
+        $this->addbalanceuser($userinfo, $companyinfo['priceoperator'], $comment);
         // Зачислить пользователю
 
 

@@ -52,45 +52,45 @@
                 </td>
             </tr>
 
-            <tr>
-                <td class="wmin-md-100" ><b>Бонусы за звонки:</b></td>
-                <td class="wmin-md-350">
-
-                    <div class="form-group row">
-
-                        <div class="col-md-6">
-                            <label>Мин кол-во звонков:<span class="text-danger">*</span></label>
-
-                            <div class="input-group">
-											<span class="input-group-prepend">
-												<span class="input-group-text">
-                                              <i class="icon-phone"></i>
-                                                </span>
-											</span>
-                                <input type="text" name="mincall" value="<?=$company['mincall']?>" placeholder="100" value="100" class="form-control required">
-                            </div>
-
-
-
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>Вознаграждение:<span class="text-danger">*</span></label>
-                            <div class="input-group">
-											<span class="input-group-prepend">
-												<span class="input-group-text">РУБ.</span>
-											</span>
-                                <input type="text" name="bonuscall" value="<?=$company['bonuscall']?>" placeholder="500" class="form-control required" aria-invalid="false">
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
-
-                </td>
-            </tr>
+<!--            <tr>-->
+<!--                <td class="wmin-md-100" ><b>Бонусы за звонки:</b></td>-->
+<!--                <td class="wmin-md-350">-->
+<!---->
+<!--                    <div class="form-group row">-->
+<!---->
+<!--                        <div class="col-md-6">-->
+<!--                            <label>Мин кол-во звонков:<span class="text-danger">*</span></label>-->
+<!---->
+<!--                            <div class="input-group">-->
+<!--											<span class="input-group-prepend">-->
+<!--												<span class="input-group-text">-->
+<!--                                              <i class="icon-phone"></i>-->
+<!--                                                </span>-->
+<!--											</span>-->
+<!--                                <input type="text" name="mincall" value="--><?//=$company['mincall']?><!--" placeholder="100" value="100" class="form-control required">-->
+<!--                            </div>-->
+<!---->
+<!---->
+<!---->
+<!--                        </div>-->
+<!---->
+<!--                        <div class="col-md-6">-->
+<!--                            <label>Вознаграждение:<span class="text-danger">*</span></label>-->
+<!--                            <div class="input-group">-->
+<!--											<span class="input-group-prepend">-->
+<!--												<span class="input-group-text">РУБ.</span>-->
+<!--											</span>-->
+<!--                                <input type="text" name="bonuscall" value="--><?//=$company['bonuscall']?><!--" placeholder="500" class="form-control required" aria-invalid="false">-->
+<!--                            </div>-->
+<!---->
+<!--                        </div>-->
+<!---->
+<!---->
+<!--                    </div>-->
+<!---->
+<!---->
+<!--                </td>-->
+<!--            </tr>-->
 
 
             </tbody>

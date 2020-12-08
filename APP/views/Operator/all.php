@@ -62,7 +62,7 @@
                     </td>
                     <td>
 
-                        <h5><span class="badge badge-success">+ <?=$val['priceresult']?> руб. </span></h5>
+                        <h5><span class="badge badge-success">+ <?=$val['priceoperator']?> руб. </span></h5>
 
 
                     </td>
