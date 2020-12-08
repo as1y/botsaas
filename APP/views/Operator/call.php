@@ -264,7 +264,7 @@
                                 <span class="badge badge-success">
 
 
-                                 <b><?=companytype($company["type"]);?></b>+<?=$company['priceresult'];?> РУБЛЕЙ
+                                 <b><?=companytype($company["type"]);?></b>+<?=$company['priceoperator'];?> РУБЛЕЙ
 
 
                             </span>
