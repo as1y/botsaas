@@ -525,6 +525,8 @@ class OperatorController extends AppController {
 
         $mystat = $operator->todaystat();
 
+        $allstat = $operator->allstat();
+
 
         $result = $operator->topleaders();
 
@@ -559,7 +561,7 @@ class OperatorController extends AppController {
 
          $user =  $Panel->usermy();
 
-        $this->set(compact('mystat', 'result', 'chat', 'user'));
+        $this->set(compact('mystat', 'result', 'chat', 'user', 'allstat'));
 
 
 

@@ -1220,7 +1220,10 @@ class PanelController extends AppController {
 
         $operators = $Panel->getoperators();
 
-        $this->set(compact('operators'));
+        $results = $Panel->getoperatorresults();
+
+
+        $this->set(compact('operators', 'results'));
 
 
 

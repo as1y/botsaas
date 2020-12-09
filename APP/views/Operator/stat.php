@@ -56,6 +56,19 @@
                     <i class="icon-user mr-2"></i>
                     МОЙ ПРОФИЛЬ
                 </a>
+                <hr>
+                ВСЕГО ЗВОНКОВ: <?=$allstat['totatcall']?><br>
+                ВСЕГО РЕЗУЛЬТАТОВ: <?=$allstat['totalresultlead']?><br>
+                <?php
+                $convert = 0;
+                if ($allstat['totatcall'] > 0){
+                    $convert = ($allstat['totalresultlead']/$allstat['totatcall'])*100;
+                    $convert = round($convert, 2);
+                }
+                ?>
+               <b>КОНВЕРСИЯ:</b> <?=$convert?> %
+                <hr>
+
                 <div class="table-responsive">
                     <table class="table ">
                         <tbody>

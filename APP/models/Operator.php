@@ -374,6 +374,23 @@ class Operator extends \APP\core\base\Model {
     }
 
 
+    public function allstat(){
+
+        // Все звонки
+        $totatcall = self::$USER['totalcall'];
+        $totalresultlead =  R::count('result', 'WHERE type=1 AND users_id=?', [self::$USER['id']]);
+
+        if (empty($totatcall)) $totatcall = 0;
+        if (empty($totalresultlead)) $totalresultlead = 0;
+        $result['totatcall'] = $totatcall;
+        $result['totalresultlead'] = $totalresultlead;
+
+        return $result;
+
+    }
+
+
+
 
     public function statuscall(){
 

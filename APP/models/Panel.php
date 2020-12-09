@@ -247,6 +247,21 @@ class Panel extends \APP\core\base\Model {
         return $operators;
     }
 
+
+    public function getoperatorresults(){
+        $result = R::findALL("result", "WHERE type = 1 ");
+
+        $RESMASS = [];
+        foreach ($result as $key=>$val){
+            if (empty($val['users_id'])) continue;
+            if (empty($RESMASS[$val['users_id']])) $RESMASS[$val['users_id']] = 0;
+            $RESMASS[$val['users_id']] = $RESMASS[$val['users_id']] +1;
+        }
+
+        return $RESMASS;
+    }
+
+
     public function getcustomoperators($mass = []){
         $operators = R::loadAll("users", $mass);
         return $operators;

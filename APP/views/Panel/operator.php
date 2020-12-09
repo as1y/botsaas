@@ -18,7 +18,8 @@
                         <th>Имя Фамилия</th>
                         <th>Информация</th>
                         <th>Звонков</th>
-                        <th>Рейтинг</th>
+                        <th>Результатов</th>
+                        <th>Конверсия</th>
                         <th>Действие</th>
 
                     </tr>
@@ -36,7 +37,26 @@
 
                             <td class="text-center"><?=$val['aboutme']?></td>
                             <td class="text-center"><?= (empty($val['totalcall'])) ? 0 : $val['totalcall']  ?></td>
-                            <td class="text-center">0</td>
+                            <td class="text-center"><?php
+
+                                if (empty($results[$val['id']])) $results[$val['id']] = 0;
+                               echo $results[$val['id']];
+
+                                ?></td>
+
+                            <td class="text-center">
+                                <?php
+                                $convert = 0;
+                                if ($val['totalcall'] != 0){
+                                    $convert =  ($results[$val['id']]/$val['totalcall'])*100;
+                                    $convert = round($convert, 2);
+                                }
+
+                                ?>
+                                <?=$convert?> %
+
+                            </td>
+
 
                             <td class="text-center">
 
