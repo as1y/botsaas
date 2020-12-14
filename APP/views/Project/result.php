@@ -111,12 +111,12 @@
                     <thead>
                     <tr>
                         <th class="text-center"><b>ЗВОНКОВ</b></th>
-
-                        <th class="text-center"><b>ОДОБРЕННЫХ</b></th>
                         <th class="text-center"><b>% ОДОБРЕННЫХ</b></th>
-                        <th class="text-center"><b>ОТКЛОНЕННЫХ</b></th>
+                        <th class="text-center"><b>РЕЗУЛЬТАТ</b></th>
                         <th class="text-center"><b>% ОТКЛОНЕННЫХ</b></th>
+                        <th class="text-center"><b>ОТКАЗ</b></th>
                         <th class="text-center"><b>ОПЕРАТОР</b></th>
+                        <th class="text-center"><b>ИТОГ</b></th>
 
 
 
@@ -169,11 +169,34 @@
                                 ?>
                             </td>
 
-                            <td class="text-center">
 
+                            <td class="text-center">
                                 <img src="<?=$val['avatar']?>" width="38" height="38" class="rounded-circle" alt=""><br>
                                 <?=$val['username']?>
                             </td>
+
+                            <td class="text-center">
+                                <?php
+                                $rashodzvonki =$statoperator['CALLSU'][$val['id']] * 1.5;
+                                $rashodoplata = $statoperator['MASSACEPT'][$val['id']] * 150;
+
+                                $rashodbonus = ($statoperator['CALLSU'][$val['id']]/100);
+                                $rashodbonus = floor($rashodbonus) * 200;
+
+                                $itogo = $rashodzvonki+$rashodoplata+$rashodbonus;
+
+                                ?>
+                                ЗВ:  <?=$rashodzvonki ?><br>
+                                ОП: <?=$rashodoplata?> <br>
+                                БО: <?= $rashodbonus ?> <br>
+                                <b>ИТОГО: <?= $itogo?></b>
+<hr>
+                                ЗАР: <?= $statoperator['MASSACEPT'][$val['id']] * 400?> <br>
+
+
+
+                            </td>
+
 
 
 

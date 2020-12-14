@@ -111,7 +111,7 @@
                             <div class="footer-menu">
                                 <h4>Оператору</h4>
                                 <ul>
-                                    <li><a href="/user/register/">Ругистрация</a></li>
+                                    <li><a href="/user/register/">Регистрация</a></li>
                                     <li><a href="/main/operator/">Сервис</a></li>
                                 </ul>
                             </div>
